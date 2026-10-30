@@ -21,6 +21,9 @@ window.WallboardPages = (() => {
     window.WallboardSecurity?.closeCamera();
     const changed = page !== next || !document.body.dataset.page;
     page = next;
+    window.dispatchEvent(
+      new CustomEvent("wallboard-page-change", { detail: { page } }),
+    );
     document.body.dataset.page = page;
     document.getElementById("dashboard").hidden = page !== "home";
     document.getElementById("planner-page").hidden = page !== "planner";

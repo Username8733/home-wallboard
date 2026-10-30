@@ -287,13 +287,33 @@ window.WallboardHomeAgenda = (() => {
     }
   }
   if ($("agenda-all")) {
+    let returnHome = null,
+      navigation = 0;
+    window.addEventListener("wallboard-page-change", () => {
+      navigation += 1;
+      returnHome?.abort();
+      returnHome = null;
+    });
     $("agenda-all").onclick = async () => {
       if (state?.fire?.active) return;
       try {
         WallboardPages.setPage("planner");
+        const openedAt = navigation;
         const frame = await WallboardPages.readyPlanner();
-        if (!state?.fire?.active)
-          await frame.contentWindow.wallboardOpenToday(today());
+        if (state?.fire?.active || navigation !== openedAt) return;
+        await frame.contentWindow.wallboardOpenToday(today());
+        if (state?.fire?.active || navigation !== openedAt) return;
+        returnHome = new AbortController();
+        frame.contentDocument.getElementById("day-detail").addEventListener(
+          "close",
+          () => {
+            if (WallboardPages.page !== "planner" || state?.fire?.active)
+              return;
+            WallboardPages.setPage("home");
+            $("agenda-all").focus({ preventScroll: true });
+          },
+          { once: true, signal: returnHome.signal },
+        );
       } catch {
         $("planner-retry").hidden = false;
       }
