@@ -47,8 +47,8 @@ python scripts/capture_screenshots.py --browser /path/to/chromium
 - Separate indoor/outdoor temperature sensors, or current outdoor temperature from the same service and location as the daily forecast.
 - Home Assistant weather or Open-Meteo with city search and explicit location selection.
 - Camera snapshots and a direct stream while HLS connects.
-- Today’s Family Planner agenda in the home card: participant colors, three events, event details and a full-day view that returns home when closed.
-- Music browsing, clickable queue entries and slideshow now-playing information.
+- Today’s Family Planner agenda in the home card: participant colors, three events, event details and a full-day overlay that keeps the home dashboard visible.
+- Music browsing, speaker/group selection, a queue and controls bound to the selected output, and slideshow now-playing information.
 - Five original timer sounds, volume and tablet/speaker output selection.
 - Immich, local folders, private iCloud albums and private Google Photos selections.
 - Scheduled screen-off with start/end times (Europe/Stockholm), temporary touch wake and alarm/timer priority.

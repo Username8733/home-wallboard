@@ -1,6 +1,16 @@
 "use strict";
 // Swedish message IDs and English translations. User content stays in its original language.
 window.WallboardMessages = Object.freeze({
+  "Dagens händelser": "Today’s events",
+  "Tillagd i kön på ": "Added to the queue on ",
+  "Spelar på ": "Playing on ",
+  "Kunde inte välja högtalare.": "Could not select speaker.",
+  "Vald högtalare": "Selected speaker",
+  "Välj en tillgänglig högtalare i Music Assistant.":
+    "Choose an available speaker in Music Assistant.",
+  "Högtalaren har ändrats. Försök igen.": "The speaker has changed. Try again.",
+  Pausat: "Paused",
+  Grupp: "Group",
   Idag: "Today",
   "Visa alla": "View all",
   händelse: "event",

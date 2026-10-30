@@ -16,14 +16,12 @@ window.WallboardPages = (() => {
     latest = null;
   function setPage(next) {
     if (fireActive || !tabs[next]) return;
+    window.WallboardHomeAgenda?.closeAll(false);
     window.WallboardPlannerOverview?.close();
     window.WallboardKeyboard?.hide();
     window.WallboardSecurity?.closeCamera();
     const changed = page !== next || !document.body.dataset.page;
     page = next;
-    window.dispatchEvent(
-      new CustomEvent("wallboard-page-change", { detail: { page } }),
-    );
     document.body.dataset.page = page;
     document.getElementById("dashboard").hidden = page !== "home";
     document.getElementById("planner-page").hidden = page !== "planner";
@@ -65,7 +63,7 @@ window.WallboardPages = (() => {
       doc.addEventListener("pointerdown", () => wake(), { passive: true });
       const readyBridge = doc.createElement("script");
       readyBridge.textContent =
-        "window.wallboardPlannerReady=()=>sharedSettings.ready;window.wallboardOpenToday=async(date)=>{month=makeDate(date);month.setDate(1);render();await refreshOnline(true);openDay(date);};";
+        "window.wallboardPlannerReady=()=>sharedSettings.ready;";
       doc.head.append(readyBridge);
       readyBridge.remove();
       WallboardPlannerOverview.install(frame);
@@ -245,6 +243,7 @@ window.WallboardPages = (() => {
     latest = s;
     const fire = s.fire || { active: false, alarms: [], online: s.ha_online };
     if (fire.active && !fireActive) {
+      WallboardHomeAgenda.closeAll(false);
       WallboardPlannerOverview.close();
       WallboardKeyboard.hide();
       manualPhotos = false;

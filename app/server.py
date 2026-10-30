@@ -75,7 +75,7 @@ PHOTO_LIBRARY = PhotoLibrary(C, SETTINGS, CACHE)
 ICLOUD_ACCOUNT = ICloudAccount(PLANNER, PHOTO_LIBRARY.private)
 KEYBOARD = KeyboardControl()
 CONTROL_AGENT = ControlAgent(C)
-MUSIC = Music(C)
+MUSIC = Music(C, selection_path="/var/lib/wallboard/music-player.json")
 FORECAST = Forecast(C, SETTINGS)
 LIGHT_AREAS = LightAreas(C)
 TIMER = TimerStore("/var/lib/wallboard/timer.json")
@@ -876,9 +876,28 @@ def music_browse():
 @app.get("/api/music/queue")
 def music_queue():
     try:
-        return jsonify(MUSIC.queue())
+        with lock:
+            queue_states = dict(states)
+        return jsonify(MUSIC.queue(queue_states))
     except (ValueError, KeyError, requests.RequestException):
         return jsonify(error="Musikkön kunde inte hämtas. Försök igen."), 502
+
+
+@app.post("/api/music/output")
+def music_output():
+    body = request.get_json(silent=True)
+    if not isinstance(body, dict):
+        abort(400)
+    if FIRE.status(states, False)["active"]:
+        abort(409)
+    try:
+        with lock:
+            player = MUSIC.select_player(
+                body.get("player"), states, not ha_error and time.time() - ha_updated < 25
+            )
+        return jsonify(ok=True, player=player)
+    except (ValueError, TypeError) as error:
+        return jsonify(error=str(error)), 400
 
 
 @app.post("/api/music/control")
@@ -892,7 +911,13 @@ def music_control():
     if ha_error or time.time() - ha_updated > 25:
         abort(503)
     try:
-        MUSIC.command(body)
+        with lock:
+            if not any(
+                row["id"] == MUSIC.player and row["online"] for row in MUSIC.outputs(states)
+            ):
+                raise ValueError("Välj en tillgänglig högtalare i Music Assistant.")
+            command_states = dict(states)
+        MUSIC.command(body, command_states)
         last_touch = time.time()
         return jsonify(ok=True)
     except (ValueError, TypeError) as error:

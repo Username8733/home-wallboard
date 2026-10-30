@@ -11,7 +11,10 @@ window.WallboardMusic = (() => {
     queueUpdated = 0,
     queueFirst = true,
     context = null,
-    commandBusy = false;
+    commandBusy = false,
+    outputBusy = false,
+    outputKey = "",
+    selectedPlayer = null;
   const kinds = {
     artist: "Artist",
     album: "Album",
@@ -74,7 +77,8 @@ window.WallboardMusic = (() => {
               "aria-label",
               WallboardI18n.t("Spela ") +
                 item.title +
-                WallboardI18n.t(" på Högtalaren"),
+                " · " +
+                (latest?.music?.player?.name || WallboardI18n.t("Högtalare")),
             );
             play.onclick = () => command({ action: "item", id: item.id });
             const add = document.createElement("button");
@@ -130,11 +134,17 @@ window.WallboardMusic = (() => {
   async function loadQueue(force = false) {
     if (queueBusy || (!force && Date.now() - queueUpdated < 5000)) return;
     queueBusy = true;
+    const requestedPlayer = latest?.music?.player?.entity_id;
     try {
       const r = await fetch("/api/music/queue"),
         b = await r.json();
       if (!r.ok)
         throw Error(b.error || WallboardI18n.t("Musikkön kunde inte hämtas."));
+      if (
+        latest?.music?.player?.entity_id !== requestedPlayer ||
+        (b.player && b.player !== requestedPlayer)
+      )
+        return;
       $("music-queue-count").textContent = b.total + WallboardI18n.t(" låtar");
       $("music-view-queue").textContent =
         WallboardI18n.t("Musikkö (") + b.total + ")";
@@ -190,7 +200,8 @@ window.WallboardMusic = (() => {
         WallboardI18n.t(e.message) || WallboardI18n.t("Kön kunde inte hämtas.");
     } finally {
       queueBusy = false;
-      queueUpdated = Date.now();
+      queueUpdated =
+        latest?.music?.player?.entity_id === requestedPlayer ? Date.now() : 0;
     }
   }
   $("music-clear-search").onclick = () => {
@@ -210,7 +221,7 @@ window.WallboardMusic = (() => {
   $("music-view-queue").onclick = () => setView("queue");
   $("music-queue-refresh").onclick = () => loadQueue(true);
   async function command(body) {
-    if (latest?.fire?.active || commandBusy) return;
+    if (latest?.fire?.active || commandBusy || outputBusy) return;
     commandBusy = true;
     $("music-page").classList.add("music-command-busy");
     $("music-control-status").textContent = WallboardI18n.t("Arbetar…");
@@ -218,7 +229,7 @@ window.WallboardMusic = (() => {
       const r = await fetch("/api/music/control", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({ ...body, player: selectedPlayer }),
       });
       const b = await r.json();
       if (!r.ok)
@@ -228,8 +239,10 @@ window.WallboardMusic = (() => {
       $("music-control-status").textContent =
         body.action === "item"
           ? body.enqueue === "add"
-            ? WallboardI18n.t("Tillagd i kön på Högtalaren.")
-            : WallboardI18n.t("Spelar på Högtalaren…")
+            ? WallboardI18n.t("Tillagd i kön på ") +
+              (latest?.music?.player?.name || "")
+            : WallboardI18n.t("Spelar på ") +
+              (latest?.music?.player?.name || "")
           : "";
       await poll();
       if (["queue_item", "item"].includes(body.action)) {
@@ -300,6 +313,34 @@ window.WallboardMusic = (() => {
       action: "repeat",
       value: latest?.music?.player.repeat === "off" ? "all" : "off",
     });
+  $("music-output-name").onchange = async () => {
+    if (outputBusy || commandBusy || latest?.fire?.active) return;
+    outputBusy = true;
+    $("music-output-name").disabled = true;
+    $("music-control-status").textContent = WallboardI18n.t("Arbetar…");
+    try {
+      const response = await fetch("/api/music/output", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player: $("music-output-name").value }),
+      });
+      const result = await response.json();
+      if (!response.ok)
+        throw new Error(
+          result.error || WallboardI18n.t("Kunde inte välja högtalare."),
+        );
+      await poll();
+      $("music-control-status").textContent =
+        WallboardI18n.t("Vald högtalare") +
+        ": " +
+        (latest?.music?.player?.name || "");
+    } catch (error) {
+      $("music-control-status").textContent = WallboardI18n.t(error.message);
+    } finally {
+      outputBusy = false;
+      if (latest) update(latest);
+    }
+  };
   function update(s) {
     latest = s;
     if (
@@ -311,7 +352,37 @@ window.WallboardMusic = (() => {
     const p = s.music?.player;
     if (!p) return;
     const playing = s.music?.playing;
-    $("music-output-name").textContent = p.name || "Relax";
+    const output = $("music-output-name"),
+      outputs = s.music.outputs || [
+        { id: p.entity_id, name: p.name || "Relax", online: p.online },
+      ];
+    const key = JSON.stringify([outputs, WallboardI18n.language]);
+    if (key !== outputKey) {
+      outputKey = key;
+      output.replaceChildren(
+        ...outputs.map((speaker) => {
+          const option = document.createElement("option");
+          option.value = speaker.id;
+          option.textContent =
+            speaker.name +
+            (speaker.group ? " · " + WallboardI18n.t("Grupp") : "") +
+            (!speaker.online ? " · " + WallboardI18n.t("Frånkopplad") : "");
+          option.disabled = !speaker.online;
+          return option;
+        }),
+      );
+    }
+    if (!outputBusy) output.value = p.entity_id;
+    output.disabled = outputBusy || commandBusy || s.fire?.active;
+    if (selectedPlayer !== p.entity_id) {
+      selectedPlayer = p.entity_id;
+      queueUpdated = 0;
+      queueFirst = true;
+      $("music-queue-items").replaceChildren();
+      $("music-queue-count").textContent = "";
+      $("music-view-queue").textContent = WallboardI18n.t("Musikkö");
+      $("music-queue-message").textContent = WallboardI18n.t("Hämtar musik…");
+    }
     $("music-title").textContent =
       p.title || WallboardI18n.t("Välj något att lyssna på");
     $("music-artist").textContent =
@@ -321,10 +392,10 @@ window.WallboardMusic = (() => {
     $("music-player-status").textContent = !p.online
       ? WallboardI18n.t("Spelaren är frånkopplad")
       : p.state === "playing"
-        ? WallboardI18n.t("Spelar på Högtalaren")
+        ? WallboardI18n.t("Spelar på ") + p.name
         : p.state === "paused"
-          ? WallboardI18n.t("Pausat · Högtalaren")
-          : WallboardI18n.t("Högtalaren");
+          ? WallboardI18n.t("Pausat") + " · " + p.name
+          : p.name;
     $("music-play").textContent = p.state === "playing" ? "Ⅱ" : "▶";
     $("music-play").setAttribute(
       "aria-label",

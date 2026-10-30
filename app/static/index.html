@@ -298,10 +298,16 @@
       </header>
       <div class="music-layout">
         <article class="music-now card">
-          <div class="music-output">
-            <span data-i18n="Spelar på">Spelar på</span
-            ><strong id="music-output-name">Relax</strong>
-          </div>
+          <label class="music-output">
+            <span data-i18n="Högtalare">Högtalare</span>
+            <select
+              id="music-output-name"
+              aria-label="Högtalare"
+              data-i18n-aria-label="Högtalare"
+            >
+              <option>Relax</option>
+            </select>
+          </label>
           <div class="music-artwork">
             <span aria-hidden="true">♫</span
             ><img alt="Albumomslag" hidden="" id="music-art" />
@@ -1546,6 +1552,54 @@
           </button>
           <p id="timer-error" role="alert"></p>
         </div>
+      </div>
+    </section>
+    <section
+      id="agenda-overview"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="agenda-day-title"
+      hidden
+    >
+      <div class="event-sheet">
+        <header>
+          <div>
+            <div class="eyebrow" data-i18n="Family Planner">Family Planner</div>
+            <h1
+              id="agenda-day-title"
+              tabindex="-1"
+              data-i18n="Dagens händelser"
+            >
+              Dagens händelser
+            </h1>
+            <p id="agenda-day-date"></p>
+          </div>
+          <button
+            type="button"
+            class="round-close"
+            id="agenda-day-close"
+            aria-label="Stäng"
+            data-i18n-aria-label="Stäng"
+          >
+            ×
+          </button>
+        </header>
+        <div class="event-overview-scroll">
+          <div id="agenda-day-events"></div>
+          <p id="agenda-day-message" role="status"></p>
+        </div>
+        <footer>
+          <div>
+            <button
+              type="button"
+              class="secondary-button"
+              id="agenda-day-back"
+              data-i18n="Tillbaka"
+            >
+              Tillbaka
+            </button>
+          </div>
+        </footer>
       </div>
     </section>
     <section

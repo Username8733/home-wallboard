@@ -1692,7 +1692,7 @@ body[data-page="planner"] #planner-page {
   grid-template-rows: repeat(2, 1fr);
 }
 #settings-panel,
-#event-overview {
+:is(#event-overview, #agenda-overview) {
   position: fixed;
   inset: 0;
   z-index: 14;
@@ -2056,7 +2056,7 @@ body[data-page="planner"] #planner-page {
     height: 42px;
   }
   #settings-panel,
-  #event-overview {
+  :is(#event-overview, #agenda-overview) {
     padding: 14px;
   }
   .settings-sheet,
@@ -3756,4 +3756,31 @@ body.hide-help .settings-draft-help {
   .home {
     justify-content: flex-start;
   }
+}
+
+.music-output select {
+  min-width: 0;
+  width: 100%;
+  max-width: 250px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--tile);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  padding: 9px 30px 9px 12px;
+}
+.music-output select option {
+  background: var(--bg);
+  color: var(--text);
+}
+#agenda-day-events .agenda-event {
+  min-height: 76px;
+}
+#agenda-day-events .agenda-detail strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+#agenda-day-date {
+  margin: 8px 0 0;
 }

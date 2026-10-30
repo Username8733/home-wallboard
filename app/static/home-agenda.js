@@ -124,6 +124,66 @@ window.WallboardHomeAgenda = (() => {
         : "")
     );
   }
+  function eventRow(event, fromList = false) {
+    const day = today();
+    const people = (event.people || (event.person ? [event.person] : []))
+      .map((id) => snapshot.people.find((p) => p.id === id))
+      .filter(Boolean);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "agenda-event";
+    button.style.setProperty("--agenda-person", color(people[0]));
+    const time = document.createElement("span");
+    time.className = "agenda-time";
+    time.textContent =
+      !event.time && !event.end
+        ? t("Heldag")
+        : event.date < day
+          ? t("Pågår")
+          : WallboardI18n.formatTime(event.time || "00:00");
+    const detail = document.createElement("span");
+    detail.className = "agenda-detail";
+    const title = document.createElement("strong");
+    title.textContent =
+      (people.length ? people.map((p) => p.name).join(", ") + " – " : "") +
+      event.title;
+    const range = document.createElement("small");
+    range.textContent = timeLabel(event);
+    detail.append(title, range);
+    const chevron = document.createElement("span");
+    chevron.className = "agenda-chevron";
+    chevron.textContent = "›";
+    chevron.setAttribute("aria-hidden", "true");
+    button.append(time, detail, chevron);
+    button.title = title.textContent + " · " + range.textContent;
+    button.onclick = () => {
+      if (fromList) closeAll(false);
+      window.WallboardPlannerOverview.showHome(
+        event,
+        snapshot,
+        fromList ? $("agenda-all") : button,
+      );
+      window.WallboardPages.readyPlanner().catch(() => {});
+    };
+    return button;
+  }
+  function closeAll(restoreFocus = true) {
+    $("agenda-overview").hidden = true;
+    if (restoreFocus) $("agenda-all").focus({ preventScroll: true });
+  }
+  function renderAll() {
+    $("agenda-day-events").replaceChildren(
+      ...items.map((event) => eventRow(event, true)),
+    );
+    $("agenda-day-message").textContent = $("agenda-message").textContent;
+    $("agenda-day-date").textContent = new Date(
+      today() + "T12:00:00",
+    ).toLocaleDateString(WallboardI18n.locale(), {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+    });
+  }
   function render() {
     if (!$("agenda-events")) return;
     const day = today();
@@ -155,46 +215,10 @@ window.WallboardHomeAgenda = (() => {
     if (key !== renderKey) {
       renderKey = key;
       $("agenda-events").replaceChildren(
-        ...items.slice(0, 3).map((event) => {
-          const people = (event.people || (event.person ? [event.person] : []))
-            .map((id) => snapshot.people.find((p) => p.id === id))
-            .filter(Boolean);
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "agenda-event";
-          button.style.setProperty("--agenda-person", color(people[0]));
-          const time = document.createElement("span");
-          time.className = "agenda-time";
-          time.textContent =
-            !event.time && !event.end
-              ? t("Heldag")
-              : event.date < day
-                ? t("Pågår")
-                : WallboardI18n.formatTime(event.time || "00:00");
-          const detail = document.createElement("span");
-          detail.className = "agenda-detail";
-          const title = document.createElement("strong");
-          title.textContent =
-            (people.length
-              ? people.map((p) => p.name).join(", ") + " – "
-              : "") + event.title;
-          const range = document.createElement("small");
-          range.textContent = timeLabel(event);
-          detail.append(title, range);
-          const chevron = document.createElement("span");
-          chevron.className = "agenda-chevron";
-          chevron.textContent = "›";
-          chevron.setAttribute("aria-hidden", "true");
-          button.append(time, detail, chevron);
-          button.title = title.textContent + " · " + range.textContent;
-          button.onclick = () => {
-            window.WallboardPlannerOverview.showHome(event, snapshot, button);
-            window.WallboardPages.readyPlanner().catch(() => {});
-          };
-          return button;
-        }),
+        ...items.slice(0, 3).map((event) => eventRow(event)),
       );
     }
+    if (!$("agenda-overview").hidden) renderAll();
     colorPeople();
   }
   async function get(path) {
@@ -287,37 +311,23 @@ window.WallboardHomeAgenda = (() => {
     }
   }
   if ($("agenda-all")) {
-    let returnHome = null,
-      navigation = 0;
-    window.addEventListener("wallboard-page-change", () => {
-      navigation += 1;
-      returnHome?.abort();
-      returnHome = null;
-    });
-    $("agenda-all").onclick = async () => {
+    $("agenda-all").onclick = () => {
       if (state?.fire?.active) return;
-      try {
-        WallboardPages.setPage("planner");
-        const openedAt = navigation;
-        const frame = await WallboardPages.readyPlanner();
-        if (state?.fire?.active || navigation !== openedAt) return;
-        await frame.contentWindow.wallboardOpenToday(today());
-        if (state?.fire?.active || navigation !== openedAt) return;
-        returnHome = new AbortController();
-        frame.contentDocument.getElementById("day-detail").addEventListener(
-          "close",
-          () => {
-            if (WallboardPages.page !== "planner" || state?.fire?.active)
-              return;
-            WallboardPages.setPage("home");
-            $("agenda-all").focus({ preventScroll: true });
-          },
-          { once: true, signal: returnHome.signal },
-        );
-      } catch {
-        $("planner-retry").hidden = false;
-      }
+      WallboardKeyboard.hide();
+      renderAll();
+      $("agenda-overview").hidden = false;
+      $("agenda-day-title").focus({ preventScroll: true });
+      wake();
+      refresh();
     };
+    $("agenda-day-close").onclick = () => closeAll();
+    $("agenda-day-back").onclick = () => closeAll();
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !$("agenda-overview").hidden) {
+        event.preventDefault();
+        closeAll();
+      }
+    });
     window.addEventListener("wallboard-locale-change", render);
     window.addEventListener("focus", refresh);
     document.addEventListener("visibilitychange", () => {
@@ -325,5 +335,13 @@ window.WallboardHomeAgenda = (() => {
     });
     refresh();
   }
-  return Object.freeze({ refresh, edit, colorPeople, today, daily, route });
+  return Object.freeze({
+    refresh,
+    edit,
+    colorPeople,
+    today,
+    daily,
+    route,
+    closeAll,
+  });
 })();

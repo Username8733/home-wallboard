@@ -3,6 +3,7 @@
   const panels = {
     "light-panel": () => WallboardLightControls.close(),
     "settings-panel": () => WallboardSettings.close(),
+    "agenda-overview": () => WallboardHomeAgenda.closeAll(),
     "event-overview": () => WallboardPlannerOverview.close(),
     "timer-panel": () => WallboardTimer.close(),
   };

@@ -1,6 +1,10 @@
 """Narrow Music Assistant controls; HA credentials and artwork URLs stay on the device."""
 
 import hashlib
+import json
+import os
+import pathlib
+import re
 import threading
 import time
 
@@ -22,7 +26,7 @@ CATEGORIES = {
 
 
 class Music:
-    def __init__(self, config):
+    def __init__(self, config, selection_path=None):
         self.config = config
         self.ma_base = config.get("ma_url", "").rstrip("/")
         self.ma_token = config.get("ma_token")
@@ -31,6 +35,71 @@ class Music:
         self.items = {}
         self.lock = threading.RLock()
         self.art_cache = {}
+        self.selection_path = pathlib.Path(selection_path) if selection_path else None
+        self._player = PLAYER
+        if self.selection_path:
+            try:
+                saved = json.loads(self.selection_path.read_text())["player"]
+                if isinstance(saved, str) and re.fullmatch(r"media_player\.[a-z0-9_]+", saved):
+                    self._player = saved
+            except (OSError, ValueError, KeyError, TypeError):
+                pass
+
+    @property
+    def player(self):
+        with self.lock:
+            return self._player
+
+    @staticmethod
+    def is_music_player(entity, state):
+        return entity.startswith("media_player.") and (
+            entity == PLAYER
+            or state.get("attributes", {}).get("mass_player_type") in {"player", "group"}
+        )
+
+    def outputs(self, states, online=True):
+        rows = []
+        for entity, state in states.items():
+            if not self.is_music_player(entity, state):
+                continue
+            attrs = state.get("attributes", {})
+            rows.append(
+                {
+                    "id": entity,
+                    "name": attrs.get("friendly_name", entity),
+                    "group": attrs.get("mass_player_type") == "group",
+                    "online": online and state.get("state") not in {None, "unknown", "unavailable"},
+                }
+            )
+        known = {row["id"] for row in rows}
+        for entity in {PLAYER, self.player} - known:
+            rows.append(
+                {
+                    "id": entity,
+                    "name": self.config.get("music_player_name", "Relax")
+                    if entity == PLAYER
+                    else entity,
+                    "group": False,
+                    "online": False,
+                }
+            )
+        return sorted(rows, key=lambda row: (row["id"] != PLAYER, row["name"].casefold()))
+
+    def select_player(self, entity, states, online=True):
+        available = {row["id"] for row in self.outputs(states, online) if row["online"]}
+        if not isinstance(entity, str) or entity not in available:
+            raise ValueError("Välj en tillgänglig högtalare i Music Assistant.")
+        with self.lock:
+            if self.selection_path:
+                self.selection_path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = self.selection_path.with_suffix(".tmp")
+                temporary.write_text(json.dumps({"player": entity}))
+                temporary.chmod(0o600)
+                os.replace(temporary, self.selection_path)
+            self._player = entity
+            self.queue_cache = (0, {})
+            self.queue_actions = {}
+        return entity
 
     def service(self, service, data, response=False):
         r = requests.post(
@@ -84,12 +153,13 @@ class Music:
         }
 
     def browse(self, key=None, query=None, category=None):
-        data = {"entity_id": PLAYER}
+        player = self.player
+        data = {"entity_id": player}
         if query:
             if not isinstance(query, str) or not 2 <= len(query.strip()) <= 160:
                 raise ValueError("Skriv 2–160 tecken att söka efter.")
             data["search_query"] = query.strip()
-            raw = self.service("media_player/search_media", data, True)["service_response"][PLAYER]
+            raw = self.service("media_player/search_media", data, True)["service_response"][player]
             children = raw.get("result", [])
             title = "Sökresultat"
         else:
@@ -109,7 +179,7 @@ class Music:
                 uri = ""
                 typ = "music_assistant"
             data.update(media_content_id=uri, media_content_type=typ)
-            raw = self.service("media_player/browse_media", data, True)["service_response"][PLAYER]
+            raw = self.service("media_player/browse_media", data, True)["service_response"][player]
             children = raw.get("children", [])
             title = CATEGORIES.get(uri, raw.get("title", "Bibliotek"))
         return {
@@ -118,9 +188,34 @@ class Music:
             "items": [x for c in children if (x := self.item(c)) is not None],
         }
 
-    def command(self, body):
+    def queue_info(self, player, states=None):
+        if states is None:
+            return self.service("music_assistant/get_queue", {"entity_id": player}, True)[
+                "service_response"
+            ][player]
+        queue_id = states.get(player, {}).get("attributes", {}).get("active_queue")
+        if not queue_id:
+            return None
+        if not self.ma_token:
+            raise ValueError("Musikkön är inte ansluten till Music Assistant.")
+        response = requests.post(
+            self.ma_base + "/api",
+            headers={"Authorization": "Bearer " + self.ma_token},
+            json={"command": "player_queues/get", "args": {"queue_id": queue_id}},
+            timeout=(5, 20),
+        )
+        response.raise_for_status()
+        queue = response.json()
+        if not isinstance(queue, dict) or queue.get("queue_id") != queue_id:
+            raise ValueError("Musikkön kunde inte läsas.")
+        return queue
+
+    def command(self, body, states=None):
+        player = self.player
+        if body.get("player", player) != player:
+            raise ValueError("Högtalaren har ändrats. Försök igen.")
         action = body.get("action")
-        data = {"entity_id": PLAYER}
+        data = {"entity_id": player}
         allowed = {
             "play": "media_play",
             "pause": "media_pause",
@@ -134,12 +229,10 @@ class Music:
             key = body.get("id")
             with self.lock:
                 entry = getattr(self, "queue_actions", {}).get(key)
-            if not entry:
+            if not entry or entry.get("player", player) != player:
                 raise ValueError("Kön har ändrats. Uppdatera kön och välj låten igen.")
-            current = self.service("music_assistant/get_queue", {"entity_id": PLAYER}, True)[
-                "service_response"
-            ][PLAYER]
-            if current["queue_id"] != entry["queue"]:
+            current = self.queue_info(player, states)
+            if not current or current["queue_id"] != entry["queue"]:
                 raise ValueError("Kön har ändrats. Uppdatera kön.")
             r = requests.post(
                 self.ma_base + "/api",
@@ -207,13 +300,29 @@ class Music:
                 },
             )
 
-    def queue(self):
+    def queue(self, states=None):
+        player = self.player
         with self.lock:
-            if hasattr(self, "queue_cache") and time.time() - self.queue_cache[0] < 5:
+            if (
+                hasattr(self, "queue_cache")
+                and time.time() - self.queue_cache[0] < 5
+                and self.queue_cache[1].get("player") == player
+            ):
                 return self.queue_cache[1]
-        q = self.service("music_assistant/get_queue", {"entity_id": PLAYER}, True)[
-            "service_response"
-        ][PLAYER]
+        q = self.queue_info(player, states)
+        if q is None:
+            result = {
+                "player": player,
+                "items": [],
+                "total": 0,
+                "current_index": None,
+                "active": False,
+                "limited": False,
+            }
+            with self.lock:
+                self.queue_cache = (time.time(), result)
+                self.queue_actions = {}
+            return result
         if not self.ma_token:
             raise ValueError("Musikkön är inte ansluten till Music Assistant.")
         r = requests.post(
@@ -238,7 +347,7 @@ class Music:
             key = hashlib.sha256(
                 (q["queue_id"] + "|" + item["queue_item_id"]).encode()
             ).hexdigest()[:24]
-            actions[key] = {"queue": q["queue_id"], "item": item["queue_item_id"]}
+            actions[key] = {"player": player, "queue": q["queue_id"], "item": item["queue_item_id"]}
             rows.append(
                 {
                     "id": key,
@@ -252,6 +361,7 @@ class Music:
                 }
             )
         result = {
+            "player": player,
             "items": rows,
             "total": q.get("items", len(rows)),
             "current_index": q.get("current_index"),
@@ -264,14 +374,15 @@ class Music:
         return result
 
     def snapshot(self, states, online):
-        primary = states.get(PLAYER, {})
+        player = self.player
+        primary = states.get(player, {})
         sonos = states.get(SONOS, {})
-        # Sonos can play outside MA too; in that case show its current metadata.
+        # Preserve metadata for playback started directly on the default Sonos speaker.
         current = (
-            primary
-            if primary.get("state") == "playing"
-            else sonos
-            if sonos.get("state") == "playing"
+            sonos
+            if player == PLAYER
+            and primary.get("state") != "playing"
+            and sonos.get("state") == "playing"
             else primary
         )
 
@@ -295,8 +406,11 @@ class Music:
                 else None,
             }
 
-        control = public(SONOS if current is sonos else PLAYER, current)
-        control["name"] = self.config.get("music_player_name", "Högtalare")
+        control = public(SONOS if current is sonos else player, current)
+        control["entity_id"] = player
+        control["name"] = primary.get("attributes", {}).get("friendly_name") or (
+            self.config.get("music_player_name", "Relax") if player == PLAYER else player
+        )
         control["online"] = online and primary.get("state") not in {None, "unavailable", "unknown"}
         playing = []
         if online:
@@ -305,25 +419,38 @@ class Music:
                 if (
                     entity.startswith("media_player.")
                     and s.get("state") == "playing"
-                    and (entity in {PLAYER, SONOS} or a.get("app_id") == "music_assistant")
+                    and (
+                        entity in {PLAYER, SONOS}
+                        or self.is_music_player(entity, s)
+                        or a.get("app_id") == "music_assistant"
+                    )
                     and a.get("media_title")
                     and a.get("media_artist")
                 ):
                     playing.append(public(entity, s))
         playing.sort(
             key=lambda x: (
+                x["entity_id"] != player,
                 x["entity_id"] not in {PLAYER, SONOS},
                 x["entity_id"] != PLAYER,
                 x["entity_id"],
             )
         )
-        return {"player": control, "playing": playing[0] if playing else None}
+        return {
+            "player": control,
+            "outputs": self.outputs(states, online),
+            "playing": playing[0] if playing else None,
+        }
 
     def artwork(self, entity, states):
         if entity not in states:
             abort(404)
         a = states[entity].get("attributes", {})
-        if entity not in {PLAYER, SONOS} and a.get("app_id") != "music_assistant":
+        if (
+            entity not in {PLAYER, SONOS}
+            and not self.is_music_player(entity, states[entity])
+            and a.get("app_id") != "music_assistant"
+        ):
             abort(404)
         # Fixed HA endpoint: never follow browser supplied URLs or send the token elsewhere.
         key = (entity, a.get("entity_picture_local") or a.get("entity_picture"))
