@@ -1,6 +1,18 @@
 "use strict";
 // Swedish message IDs and English translations. User content stays in its original language.
 window.WallboardMessages = Object.freeze({
+  Idag: "Today",
+  "Visa alla": "View all",
+  händelse: "event",
+  händelser: "events",
+  Heldag: "All day",
+  Pågår: "Ongoing",
+  "Hämtar dagens händelser…": "Loading today's events…",
+  "Kalendern kan inte uppdateras just nu.":
+    "The calendar cannot be updated right now.",
+  "Uppdaterar kalendern…": "Updating calendar…",
+  "Inget planerat idag": "Nothing planned today",
+
   " % volym.": "% volume.",
   " av ": " of ",
   " bilder tillagda. Tryck Spara om du har bytt album.":

@@ -17,4 +17,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: node --test tests/test_home_agenda.cjs
       - run: npx --yes prettier@3.6.2 --check 'app/static/*.js' 'app/static/*.css' 'app/static/*.html'

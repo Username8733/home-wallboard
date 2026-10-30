@@ -26,6 +26,7 @@ window.WallboardPages = (() => {
     document.getElementById("planner-page").hidden = page !== "planner";
     document.getElementById("security-page").hidden = page !== "security";
     document.getElementById("music-page").hidden = page !== "music";
+    if (page === "home") window.WallboardHomeAgenda?.refresh();
     if (page === "music") window.WallboardMusic?.show();
     window.WallboardSecurity?.setVisible(page === "security");
     for (const [key, tab] of Object.entries(tabs)) {
@@ -59,6 +60,11 @@ window.WallboardPages = (() => {
       if (!doc || (!doc.querySelector("#app") && !doc.querySelector("script")))
         throw Error("Planner unavailable");
       doc.addEventListener("pointerdown", () => wake(), { passive: true });
+      const readyBridge = doc.createElement("script");
+      readyBridge.textContent =
+        "window.wallboardPlannerReady=()=>sharedSettings.ready;window.wallboardOpenToday=async(date)=>{month=makeDate(date);month.setDate(1);render();await refreshOnline(true);openDay(date);};";
+      doc.head.append(readyBridge);
+      readyBridge.remove();
       WallboardPlannerOverview.install(frame);
       WallboardKeyboard.attach(doc);
       document.getElementById("planner-retry").hidden = true;
@@ -278,7 +284,17 @@ window.WallboardPages = (() => {
     sendPlannerContext();
     window.WallboardSecurity?.update(s, { page, fireActive });
   }
+  async function readyPlanner() {
+    if (!frame.getAttribute("src")) frame.src = "/planner/";
+    const deadline = Date.now() + 45000;
+    while (Date.now() < deadline) {
+      if (frame.contentWindow?.wallboardPlannerReady?.()) return frame;
+      await new Promise((resolve) => setTimeout(resolve, 150));
+    }
+    throw new Error("Planner unavailable");
+  }
   return Object.freeze({
+    readyPlanner,
     update,
     setPage,
     get page() {

@@ -201,6 +201,14 @@ function render() {
             )
           : WallboardI18n.t("Kontrollera larmläget i Home Assistant."),
   );
+  const showAlarm =
+    !s.ha_online || alarm === "triggered" || alarm?.startsWith("armed");
+  $("home-title").hidden = !showAlarm;
+  $("home-detail").hidden = !showAlarm;
+  $("alarm-icon").classList.toggle(
+    "alarm-warning",
+    !s.ha_online || alarm === "triggered",
+  );
   const doorNames = s.home_entities?.doors || {},
     doors = Object.keys(doorNames);
   const open = doors.filter((e) => val(e) === "on");
@@ -238,6 +246,7 @@ function render() {
       return el;
     }),
   );
+  window.WallboardHomeAgenda?.colorPeople();
   for (const [entity, name] of Object.entries(s.lights)) {
     let b = document.querySelector(`[data-entity="${entity}"]`);
     if (!b) {

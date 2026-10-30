@@ -22,6 +22,7 @@
     <script defer="" src="/static/settings-navigation.js"></script>
     <script defer="" src="/static/settings.js"></script>
     <script defer="" src="/static/planner-overview.js"></script>
+    <script defer src="/static/home-agenda.js"></script>
     <script defer="" src="/static/music.js"></script>
     <script defer="" src="/static/forecast.js"></script>
     <script defer="" src="/static/timer.js"></script>
@@ -139,28 +140,46 @@
               ><span data-i18n="Ansluter">Ansluter</span></span
             >
           </div>
-          <div class="home-icon" id="alarm-icon">
-            <svg
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.7"
-              viewbox="0 0 24 24"
-            >
-              <path
-                d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
-              ></path>
-            </svg>
+          <div class="home-status">
+            <div class="home-icon" id="alarm-icon">
+              <svg
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+                viewbox="0 0 24 24"
+              >
+                <path
+                  d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
+                ></path>
+              </svg>
+            </div>
+            <div class="home-status-text">
+              <div class="doors" id="doors"></div>
+              <strong id="home-title"></strong>
+              <p id="home-detail"></p>
+            </div>
           </div>
-          <h1 id="home-title">
-            <span data-i18n="Hämtar hemstatus">Hämtar hemstatus</span>
-          </h1>
-          <p id="home-detail">
-            <span data-i18n="Home Assistant">Home Assistant</span>
-          </p>
-          <div class="doors" id="doors"></div>
+          <section class="home-agenda" aria-labelledby="agenda-heading">
+            <div class="agenda-heading">
+              <h2 id="agenda-heading" data-i18n="Idag">Idag</h2>
+              <small id="agenda-count"></small
+              ><button type="button" id="agenda-all">
+                <span data-i18n="Visa alla">Visa alla</span
+                ><span aria-hidden="true"> ›</span>
+              </button>
+            </div>
+            <div id="agenda-events"></div>
+            <p
+              id="agenda-message"
+              role="status"
+              data-i18n="Hämtar dagens händelser…"
+            >
+              Hämtar dagens händelser…
+            </p>
+          </section>
           <div class="people" id="people"></div>
         </article>
         <article class="card controls">

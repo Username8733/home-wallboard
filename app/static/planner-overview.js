@@ -22,16 +22,19 @@ window.WallboardPlannerOverview = (() => {
       },
     );
   }
-  function show(frame, original, event, date, person) {
+  function show(frame, original, event, date, person, context = {}) {
     if (state?.fire?.active) return;
     WallboardKeyboard.hide();
-    lastFocus = frame.contentDocument.activeElement;
+    lastFocus =
+      context.focus ||
+      frame?.contentDocument.activeElement ||
+      document.activeElement;
     selected = { frame, original, event, date, person };
-    const w = frame.contentWindow,
+    const w = frame?.contentWindow,
       record = event.onlineRecord || {},
-      snapshot = w.plannerSnapshot(),
-      ids = w.participants(event),
-      endDate = record.editEndDate || w.endDateOf(event),
+      snapshot = context.snapshot || w.plannerSnapshot(),
+      ids = context.ids || w.participants(event),
+      endDate = record.editEndDate || event.endDate || event.date,
       endTime = record.editEndTime ?? event.end ?? "";
     $("event-title").textContent =
       event.title || record.summary || WallboardI18n.t("Händelse");
@@ -75,7 +78,7 @@ window.WallboardPlannerOverview = (() => {
     wake();
   }
   function install(frame) {
-    const w = frame.contentWindow,
+    const w = frame?.contentWindow,
       d = frame.contentDocument;
     if (w.__wallboardEventOverviewInstalled) return true;
     if (
@@ -123,6 +126,10 @@ window.WallboardPlannerOverview = (() => {
     const item = selected;
     if (!item || state?.fire?.active) return;
     close();
+    if (!item.frame) {
+      item.original(item.event);
+      return;
+    }
     item.original.call(
       item.frame.contentWindow,
       item.event,
@@ -138,6 +145,19 @@ window.WallboardPlannerOverview = (() => {
   });
   return Object.freeze({
     install,
+    showHome(event, snapshot, focus) {
+      const ids = (event.people || []).filter((id) =>
+        snapshot.people.some((p) => p.id === id),
+      );
+      show(
+        null,
+        (item) => window.WallboardHomeAgenda.edit(item),
+        event,
+        event.date,
+        ids[0],
+        { snapshot, ids, focus },
+      );
+    },
     close,
     get isOpen() {
       return !$("event-overview").hidden;
