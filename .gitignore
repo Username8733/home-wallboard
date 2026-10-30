@@ -1,0 +1,33 @@
+*.ssh
+*secret*.json
+ha-states.json
+__pycache__/
+*.png
+discovery-*.json
+planner-inspection.txt
+reference/
+repositories/
+backups/
+.codex/
+*.pass
+*.token
+*.key
+*.pem
+*.psk
+.env*
+.DS_Store
+planner-session.secret.json
+
+xwiki-test/
+
+release/
+.venv/
+*oauth*.json
+*client_secret*.json
+*.egg-info/
+
+# Reviewed synthetic screenshots for the public project
+!publication/screenshots/*.png
+
+# Reviewed synthetic demonstration screenshots
+!docs/screenshots/*.png

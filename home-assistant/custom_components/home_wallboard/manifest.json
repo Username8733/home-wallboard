@@ -1,0 +1,1 @@
+{"domain":"home_wallboard","name":"Home Wallboard","version":"0.3.0","config_flow":true,"integration_type":"device","iot_class":"local_push","dependencies":["websocket_api"],"requirements":[],"codeowners":[]}

@@ -1,0 +1,62 @@
+/* Explicit handles: Chromium's overlay scrollbar cannot be dragged reliably by touch. */
+.wb-scroll-managed {
+  scrollbar-width: none !important;
+}
+.wb-scroll-managed::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+.wb-scroll-track {
+  position: fixed;
+  width: 20px;
+  z-index: 2147483000;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  border-radius: 12px;
+  background: rgba(115, 130, 155, 0.08);
+}
+.wb-scroll-track[data-axis="x"] {
+  height: 20px;
+  width: auto;
+}
+.wb-scroll-track[hidden] {
+  display: none !important;
+}
+.wb-scroll-thumb {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  background: rgba(115, 130, 155, 0.65);
+  box-shadow: 0 1px 3px #0002;
+  pointer-events: none;
+}
+.wb-scroll-track[data-axis="x"] .wb-scroll-thumb {
+  top: 5px;
+  bottom: 5px;
+  left: auto;
+  right: auto;
+  min-height: 0;
+  min-width: 36px;
+}
+.wb-scroll-track:focus-visible {
+  outline: 3px solid #438cff;
+}
+.wb-scroll-track[data-dragging] {
+  background: rgba(100, 120, 155, 0.22);
+}
+.wb-scroll-track[data-dragging] .wb-scroll-thumb {
+  background: #438cff;
+}
+@media (pointer: fine) {
+  .wb-scroll-track,
+  .wb-scroll-track * {
+    cursor: grab !important;
+  }
+  .wb-scroll-track[data-dragging] {
+    cursor: grabbing !important;
+  }
+}

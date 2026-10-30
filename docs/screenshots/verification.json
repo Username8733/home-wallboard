@@ -1,0 +1,8 @@
+{
+  "language": "en",
+  "synthetic_data_only": true,
+  "screenshots": 9,
+  "runtime_errors": 0,
+  "external_network_requests": false,
+  "source": "examples/demo.py"
+}

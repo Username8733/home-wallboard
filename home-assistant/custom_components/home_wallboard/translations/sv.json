@@ -1,0 +1,470 @@
+{
+  "title": "Home Wallboard",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Anslut wallboard",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Välj den separata HA-användare vars token finns på plattan. Använd en slumpmässig parkopplingsnyckel med minst 32 tecken och installera samma enhets-ID/nyckel på plattan."
+      }
+    },
+    "error": {
+      "command_failed": "Plattan kunde inte utföra ändringen. Kontrollera anslutning och kontouppgifter.",
+      "too_many_lights": "Välj högst nio lampor.",
+      "no_results": "Inga matchande städer hittades.",
+      "invalid_device": "Använd små bokstäver, siffror och understreck.",
+      "short_key": "Använd minst 32 slumpmässiga tecken.",
+      "invalid_user": "Välj en aktiv HA-användare."
+    },
+    "abort": {
+      "already_configured": "Enheten är redan konfigurerad.",
+      "not_connected": "Plattan är frånkopplad. Anslut den innan du konfigurerar.",
+      "no_albums": "Anslut bildkällan och lägg till ett album först.",
+      "calendar_unavailable": "iCloud-kalenderanslutningen är otillgänglig."
+    }
+  },
+  "options": {
+    "step": {
+      "lights": {
+        "title": "Välj lampor",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Välj högst nio lampor eller lampgrupper. Valet uppdaterar plattan direkt."
+      },
+      "weather": {
+        "title": "Välj väderort",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Sök stad och välj sedan rätt region/land."
+      },
+      "photos": {
+        "title": "Bildkälla och album",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        }
+      },
+      "icloud_photos": {
+        "title": "Logga in på iCloud-bilder",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Ange Apple-kontots lösenord för privata bilder. Det skickas krypterat till plattan och sparas inte i integrationsinställningen. Bekräfta sedan Apple-koden via motsvarande menyval."
+      },
+      "icloud_2fa": {
+        "title": "Bekräfta Apple-kod",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Ange koden som visas på din betrodda Apple-enhet."
+      },
+      "icloud_calendar": {
+        "title": "Anslut iCloud-kalender",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Använd ett appspecifikt kalenderlösenord från Apple. Anslutningen används även av Family Planner i HA. Bildåtkomsten är separat."
+      },
+      "icloud_calendar_selection": {
+        "title": "Välj iCloud-kalender",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        }
+      },
+      "google_configure": {
+        "title": "Google OAuth-klient",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Klistra in Desktop-appens OAuth-klientfil som JSON. Den skickas krypterat till plattan. Första Google-inloggningen slutförs i plattans webbläsare; därefter kan privata bildurval startas här."
+      },
+      "google_photos": {
+        "title": "Välj privata Google-bilder",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Namnge det privata urvalet. Google-kontot måste redan vara godkänt på plattan. Ingen publik albumlänk behövs."
+      },
+      "local_album": {
+        "title": "Skapa lokal bildmapp",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        }
+      },
+      "weather_city": {
+        "title": "Välj stad",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Valet ställer in Open-Meteo för prognos och väderbaserad utetemperatur."
+      },
+      "photo_album": {
+        "title": "Välj album",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        }
+      },
+      "google_import": {
+        "title": "Hämta privata bilder",
+        "data": {
+          "name": "Namn",
+          "device_id": "Enhets-ID",
+          "agent_user_id": "HA-användare för plattan",
+          "pairing_key": "Parkopplingsnyckel",
+          "lights": "Lampor och lampgrupper",
+          "city": "Stad",
+          "source": "Bildkälla",
+          "album": "Album",
+          "username": "Apple-konto",
+          "password": "Lösenord",
+          "code": "Sexsiffrig kod",
+          "calendar": "Kalender",
+          "client_secret": "Desktop OAuth-klientens JSON"
+        },
+        "description": "Öppna [Google Photos-urvalet]({url}), välj klart bilder och skicka sedan formuläret för att hämta dem till plattan. Välj det nya albumet under Bildkälla och album."
+      },
+      "init": {
+        "title": "Home Wallboard",
+        "menu_options": {
+          "lights": "Välj lampor",
+          "weather": "Välj väderort",
+          "photos": "Bildkälla och album",
+          "icloud_photos": "Logga in på iCloud-bilder",
+          "icloud_2fa": "Bekräfta Apple-kod",
+          "icloud_calendar": "Anslut iCloud-kalender",
+          "icloud_calendar_selection": "Välj iCloud-kalender",
+          "google_configure": "Google OAuth-klient",
+          "google_photos": "Välj privata Google-bilder",
+          "local_album": "Skapa lokal bildmapp"
+        }
+      }
+    },
+    "error": {
+      "command_failed": "Plattan kunde inte utföra ändringen. Kontrollera anslutning och kontouppgifter.",
+      "too_many_lights": "Välj högst nio lampor.",
+      "no_results": "Inga matchande städer hittades.",
+      "invalid_device": "Använd små bokstäver, siffror och understreck.",
+      "short_key": "Använd minst 32 slumpmässiga tecken.",
+      "invalid_user": "Välj en aktiv HA-användare."
+    },
+    "abort": {
+      "already_configured": "Enheten är redan konfigurerad.",
+      "not_connected": "Plattan är frånkopplad. Anslut den innan du konfigurerar.",
+      "no_albums": "Anslut bildkällan och lägg till ett album först.",
+      "calendar_unavailable": "iCloud-kalenderanslutningen är otillgänglig."
+    }
+  },
+  "entity": {
+    "switch": {
+      "presence_enabled": {
+        "name": "Kameraväckning"
+      },
+      "keyboard_auto": {
+        "name": "Automatiskt tangentbord"
+      },
+      "show_weather": {
+        "name": "Visa väder"
+      },
+      "show_home": {
+        "name": "Visa hemstatus"
+      },
+      "show_people": {
+        "name": "Visa närvaro"
+      },
+      "show_lights": {
+        "name": "Visa belysning"
+      },
+      "show_temperatures": {
+        "name": "Visa temperaturer"
+      },
+      "show_photos": {
+        "name": "Visa bildspelsknapp"
+      },
+      "show_help_text": {
+        "name": "Visa hjälptext"
+      },
+      "night_mode_enabled": {
+        "name": "Nattläge"
+      },
+      "screen": {
+        "name": "Skärm"
+      }
+    },
+    "select": {
+      "theme": {
+        "name": "Tema"
+      },
+      "language": {
+        "name": "Språk"
+      },
+      "time_format": {
+        "name": "Tidsformat"
+      },
+      "screen_mode": {
+        "name": "Viloläge"
+      },
+      "start_dashboard": {
+        "name": "Startvy"
+      },
+      "timer_sound": {
+        "name": "Timerljud"
+      },
+      "timer_outputs": {
+        "name": "Ljudenheter för timer"
+      },
+      "photo_source": {
+        "name": "Bildkälla"
+      },
+      "outdoor_temperature_source": {
+        "name": "Källa för utetemperatur"
+      },
+      "weather_source": {
+        "name": "Väderkälla"
+      },
+      "active_dashboard": {
+        "name": "Aktiv vy"
+      },
+      "indoor_temperature_entity": {
+        "name": "Inomhusgivare"
+      },
+      "outdoor_temperature_entity": {
+        "name": "Utomhusgivare"
+      },
+      "weather_entity": {
+        "name": "Väderentitet i HA"
+      },
+      "photo_album": {
+        "name": "Bildspelsalbum"
+      }
+    },
+    "number": {
+      "idle_seconds": {
+        "name": "Tid till viloläge"
+      },
+      "slide_seconds": {
+        "name": "Tid per bild"
+      },
+      "active_brightness": {
+        "name": "Aktiv ljusstyrka"
+      },
+      "idle_brightness": {
+        "name": "Ljusstyrka vid vila"
+      },
+      "timer_volume": {
+        "name": "Timervolym"
+      }
+    },
+    "time": {
+      "night_start": {
+        "name": "Nattläge börjar"
+      },
+      "night_end": {
+        "name": "Nattläge slutar"
+      }
+    },
+    "button": {
+      "wake": {
+        "name": "Väck skärmen"
+      },
+      "sleep": {
+        "name": "Släck skärmen"
+      },
+      "refresh": {
+        "name": "Uppdatera status"
+      }
+    },
+    "sensor": {
+      "mode": {
+        "name": "Skärmläge"
+      },
+      "brightness": {
+        "name": "Aktuell ljusstyrka"
+      },
+      "selected_lights": {
+        "name": "Valda lampor"
+      },
+      "photos": {
+        "name": "Tillgängliga bilder"
+      },
+      "location": {
+        "name": "Väderplats"
+      }
+    },
+    "binary_sensor": {
+      "online": {
+        "name": "Kontrollanslutning"
+      },
+      "camera_ok": {
+        "name": "Närvarokamera"
+      },
+      "ha_online": {
+        "name": "HA-anslutning"
+      },
+      "immich_online": {
+        "name": "Immich-anslutning"
+      },
+      "fire_active": {
+        "name": "Brandlarm aktivt"
+      }
+    }
+  }
+}

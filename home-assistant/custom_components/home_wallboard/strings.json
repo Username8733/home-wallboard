@@ -1,0 +1,470 @@
+{
+  "title": "Home Wallboard",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect wallboard",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Choose the dedicated HA user whose token is installed on the tablet. Use a random pairing key of at least 32 characters; install the same device ID and key in the tablet configuration."
+      }
+    },
+    "error": {
+      "command_failed": "The tablet could not apply the change. Check the connection and provider credentials.",
+      "too_many_lights": "Choose at most nine lights.",
+      "no_results": "No matching cities found.",
+      "invalid_device": "Use lowercase letters, digits and underscores.",
+      "short_key": "Use at least 32 random characters.",
+      "invalid_user": "Choose an active HA user."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "not_connected": "The tablet is offline. Reconnect it before configuring.",
+      "no_albums": "Connect this source and add an album first.",
+      "calendar_unavailable": "The iCloud calendar connection is unavailable."
+    }
+  },
+  "options": {
+    "step": {
+      "lights": {
+        "title": "Choose lights",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Choose at most nine lights or light groups. This updates the tablet immediately."
+      },
+      "weather": {
+        "title": "Choose weather city",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Search for a city. You will choose the matching region/country next."
+      },
+      "photos": {
+        "title": "Photo source and album",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        }
+      },
+      "icloud_photos": {
+        "title": "Sign in to iCloud Photos",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Enter your Apple Account password for private Photos. It is sent encrypted to the tablet, never stored in this config entry. Complete verification using Confirm Apple verification code."
+      },
+      "icloud_2fa": {
+        "title": "Confirm Apple verification code",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Enter the code shown on your trusted Apple device."
+      },
+      "icloud_calendar": {
+        "title": "Connect iCloud Calendar",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Use an Apple app-specific calendar password. This connection is also used by Family Planner in HA. Photos authorization remains separate."
+      },
+      "icloud_calendar_selection": {
+        "title": "Choose iCloud calendar",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        }
+      },
+      "google_configure": {
+        "title": "Google OAuth client",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Paste the downloaded Desktop app OAuth client JSON. It is sent encrypted to the tablet. Initial Google sign-in must be completed in the tablet browser; private photo selections can then be started here."
+      },
+      "google_photos": {
+        "title": "Choose private Google photos",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Name the new private photo selection. Your Google account must already be authorized on the tablet. No public album link is needed."
+      },
+      "local_album": {
+        "title": "Create local photo album",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        }
+      },
+      "weather_city": {
+        "title": "Select city",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "This configures Open-Meteo for the forecast and weather-based outdoor temperature."
+      },
+      "photo_album": {
+        "title": "Select album",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        }
+      },
+      "google_import": {
+        "title": "Import private photos",
+        "data": {
+          "name": "Name",
+          "device_id": "Device ID",
+          "agent_user_id": "HA user used by the tablet",
+          "pairing_key": "Pairing key",
+          "lights": "Lights and light groups",
+          "city": "City",
+          "source": "Photo source",
+          "album": "Album",
+          "username": "Apple Account",
+          "password": "Password",
+          "code": "Six-digit code",
+          "calendar": "Calendar",
+          "client_secret": "Desktop OAuth client JSON"
+        },
+        "description": "Open [Google Photos selection]({url}), finish choosing photos, then submit this form to import to the tablet. Choose the resulting album in Photo source and album."
+      },
+      "init": {
+        "title": "Home Wallboard",
+        "menu_options": {
+          "lights": "Choose lights",
+          "weather": "Choose weather city",
+          "photos": "Photo source and album",
+          "icloud_photos": "Sign in to iCloud Photos",
+          "icloud_2fa": "Confirm Apple verification code",
+          "icloud_calendar": "Connect iCloud Calendar",
+          "icloud_calendar_selection": "Choose iCloud calendar",
+          "google_configure": "Google OAuth client",
+          "google_photos": "Choose private Google photos",
+          "local_album": "Create local photo album"
+        }
+      }
+    },
+    "error": {
+      "command_failed": "The tablet could not apply the change. Check the connection and provider credentials.",
+      "too_many_lights": "Choose at most nine lights.",
+      "no_results": "No matching cities found.",
+      "invalid_device": "Use lowercase letters, digits and underscores.",
+      "short_key": "Use at least 32 random characters.",
+      "invalid_user": "Choose an active HA user."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "not_connected": "The tablet is offline. Reconnect it before configuring.",
+      "no_albums": "Connect this source and add an album first.",
+      "calendar_unavailable": "The iCloud calendar connection is unavailable."
+    }
+  },
+  "entity": {
+    "switch": {
+      "presence_enabled": {
+        "name": "Camera wake"
+      },
+      "keyboard_auto": {
+        "name": "Automatic keyboard"
+      },
+      "show_weather": {
+        "name": "Show weather"
+      },
+      "show_home": {
+        "name": "Show home status"
+      },
+      "show_people": {
+        "name": "Show people"
+      },
+      "show_lights": {
+        "name": "Show lights"
+      },
+      "show_temperatures": {
+        "name": "Show temperatures"
+      },
+      "show_photos": {
+        "name": "Show slideshow button"
+      },
+      "show_help_text": {
+        "name": "Show help text"
+      },
+      "night_mode_enabled": {
+        "name": "Night mode"
+      },
+      "screen": {
+        "name": "Screen"
+      }
+    },
+    "select": {
+      "theme": {
+        "name": "Theme"
+      },
+      "language": {
+        "name": "Language"
+      },
+      "time_format": {
+        "name": "Time format"
+      },
+      "screen_mode": {
+        "name": "Idle mode"
+      },
+      "start_dashboard": {
+        "name": "Startup dashboard"
+      },
+      "timer_sound": {
+        "name": "Timer sound"
+      },
+      "timer_outputs": {
+        "name": "Timer audio outputs"
+      },
+      "photo_source": {
+        "name": "Photo source"
+      },
+      "outdoor_temperature_source": {
+        "name": "Outdoor temperature source"
+      },
+      "weather_source": {
+        "name": "Forecast source"
+      },
+      "active_dashboard": {
+        "name": "Active dashboard"
+      },
+      "indoor_temperature_entity": {
+        "name": "Indoor sensor"
+      },
+      "outdoor_temperature_entity": {
+        "name": "Outdoor sensor"
+      },
+      "weather_entity": {
+        "name": "HA weather entity"
+      },
+      "photo_album": {
+        "name": "Slideshow album"
+      }
+    },
+    "number": {
+      "idle_seconds": {
+        "name": "Idle timeout"
+      },
+      "slide_seconds": {
+        "name": "Photo duration"
+      },
+      "active_brightness": {
+        "name": "Active brightness"
+      },
+      "idle_brightness": {
+        "name": "Idle brightness"
+      },
+      "timer_volume": {
+        "name": "Timer volume"
+      }
+    },
+    "time": {
+      "night_start": {
+        "name": "Night starts"
+      },
+      "night_end": {
+        "name": "Night ends"
+      }
+    },
+    "button": {
+      "wake": {
+        "name": "Wake screen"
+      },
+      "sleep": {
+        "name": "Turn screen off"
+      },
+      "refresh": {
+        "name": "Refresh status"
+      }
+    },
+    "sensor": {
+      "mode": {
+        "name": "Display mode"
+      },
+      "brightness": {
+        "name": "Current brightness"
+      },
+      "selected_lights": {
+        "name": "Selected lights"
+      },
+      "photos": {
+        "name": "Available slideshow photos"
+      },
+      "location": {
+        "name": "Weather location"
+      }
+    },
+    "binary_sensor": {
+      "online": {
+        "name": "Control connection"
+      },
+      "camera_ok": {
+        "name": "Presence camera"
+      },
+      "ha_online": {
+        "name": "HA connection"
+      },
+      "immich_online": {
+        "name": "Immich connection"
+      },
+      "fire_active": {
+        "name": "Fire alarm active"
+      }
+    }
+  }
+}

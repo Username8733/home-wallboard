@@ -1,0 +1,1706 @@
+<!doctype html>
+
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <title data-i18n="Hemma · Wallboard">Hemma · Wallboard</title>
+    <link href="/static/style.css" rel="stylesheet" />
+    <script src="/static/i18n-catalog.js"></script>
+    <script src="/static/i18n.js"></script>
+    <script src="/static/theme.js"></script>
+    <script defer="" src="/static/app.js"></script>
+    <script defer="" src="/static/planner-style.js"></script>
+    <script defer="" src="/static/vendor/hls.min.js"></script>
+    <script defer="" src="/static/security.js"></script>
+    <script defer="" src="/static/keyboard.js"></script>
+    <script defer="" src="/static/private-photos.js"></script>
+    <script defer="" src="/static/photo-settings.js"></script>
+    <script defer="" src="/static/weather-settings.js"></script>
+    <script defer="" src="/static/time-fields.js"></script>
+    <script defer="" src="/static/accounts.js"></script>
+    <script defer="" src="/static/settings-navigation.js"></script>
+    <script defer="" src="/static/settings.js"></script>
+    <script defer="" src="/static/planner-overview.js"></script>
+    <script defer="" src="/static/music.js"></script>
+    <script defer="" src="/static/forecast.js"></script>
+    <script defer="" src="/static/timer.js"></script>
+    <script defer="" src="/static/light-controls.js"></script>
+    <script defer="" src="/static/pages.js"></script>
+    <script defer="" src="/static/dialog-dismiss.js"></script>
+    <link rel="stylesheet" href="/static/scrollbars.css" />
+    <script defer src="/static/scrollbars.js"></script>
+  </head>
+  <body>
+    <nav
+      aria-label="Välj dashboard"
+      data-i18n-aria-label="Välj dashboard"
+      id="dashboard-nav"
+    >
+      <div class="dashboard-tabs" role="tablist">
+        <button
+          aria-controls="dashboard"
+          aria-selected="true"
+          id="tab-home"
+          role="tab"
+        >
+          <span data-i18n="Hemma">Hemma</span></button
+        ><button
+          aria-controls="planner-page"
+          aria-selected="false"
+          id="tab-planner"
+          role="tab"
+        >
+          <span data-i18n="Family Planner">Family Planner</span></button
+        ><button
+          aria-controls="music-page"
+          aria-selected="false"
+          id="tab-music"
+          role="tab"
+        >
+          <span data-i18n="Musik">Musik</span></button
+        ><button
+          aria-controls="security-page"
+          aria-selected="false"
+          id="tab-security"
+          role="tab"
+        >
+          <span data-i18n="Säkerhet">Säkerhet</span>
+        </button>
+      </div>
+    </nav>
+    <main aria-labelledby="tab-home" id="dashboard" role="tabpanel">
+      <header>
+        <div>
+          <div class="eyebrow">
+            <span data-i18n="HEMMA">HEMMA</span><span class="dot"></span>
+            <span id="greeting"
+              ><span data-i18n="Välkommen hem">Välkommen hem</span></span
+            >
+          </div>
+          <div id="clock">--:--</div>
+          <div id="date"></div>
+        </div>
+        <div class="home-header-right">
+          <div
+            aria-label="Dagens väderprognos"
+            class="weather"
+            data-i18n-aria-label="Dagens väderprognos"
+          >
+            <div aria-hidden="true" class="weather-scene" id="weather-scene">
+              <div class="weather-sun"></div>
+              <div class="weather-cloud"></div>
+              <div class="weather-cloud small-cloud"></div>
+              <div class="weather-rain"><i></i><i></i><i></i><i></i></div>
+              <div class="weather-snow">❄　❄　❄</div>
+              <div class="weather-fog"></div>
+            </div>
+            <div class="forecast-compact">
+              <span class="forecast-today"
+                ><span data-i18n="IDAG">IDAG</span></span
+              >
+              <div id="forecast-summary">
+                <span data-i18n="Hämtar prognos…">Hämtar prognos…</span>
+              </div>
+              <strong id="forecast-range">—°</strong
+              ><small id="forecast-rain"></small>
+            </div>
+          </div>
+          <button
+            aria-label="Inställningar"
+            class="settings-gear"
+            data-i18n-aria-label="Inställningar"
+            data-i18n-title="Inställningar"
+            id="open-settings"
+            title="Inställningar"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewbox="0 0 24 24"
+            >
+              <path
+                d="m9 3-.6 2.5-2.3 1L4 5.8 2 9.2l1.9 1.8v2L2 14.8l2 3.4 2.1-.7 2.3 1L9 21h6l.6-2.5 2.3-1 2.1.7 2-3.4-1.9-1.8v-2L22 9.2l-2-3.4-2.1.7-2.3-1L15 3Z"
+              ></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </header>
+      <section class="content">
+        <article class="card home">
+          <div class="card-heading">
+            <span data-i18n="Hemmet just nu">Hemmet just nu</span
+            ><span class="pill" id="connection"
+              ><span data-i18n="Ansluter">Ansluter</span></span
+            >
+          </div>
+          <div class="home-icon" id="alarm-icon">
+            <svg
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewbox="0 0 24 24"
+            >
+              <path
+                d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
+              ></path>
+            </svg>
+          </div>
+          <h1 id="home-title">
+            <span data-i18n="Hämtar hemstatus">Hämtar hemstatus</span>
+          </h1>
+          <p id="home-detail">
+            <span data-i18n="Home Assistant">Home Assistant</span>
+          </p>
+          <div class="doors" id="doors"></div>
+          <div class="people" id="people"></div>
+        </article>
+        <article class="card controls">
+          <div class="card-heading">
+            <span data-i18n="Belysning">Belysning</span
+            ><span class="muted optional-help"
+              ><span class="optional-help" data-i18n="Tryck för att ändra"
+                >Tryck för att ändra</span
+              ></span
+            >
+          </div>
+          <div class="lights" id="lights"></div>
+          <div aria-live="polite" id="feedback" role="status"></div>
+        </article>
+      </section>
+      <section class="temperatures">
+        <div class="temperature">
+          <span><span data-i18n="Utomhus">Utomhus</span></span
+          ><strong id="outdoor">—°</strong>
+          <div class="bar"></div>
+        </div>
+        <div class="temperature">
+          <span><span data-i18n="Inomhus">Inomhus</span></span
+          ><strong id="kitchen">—°</strong>
+          <div class="bar"></div>
+        </div>
+        <div class="temperature timer-entry">
+          <button
+            aria-label="Öppna timer"
+            data-i18n-aria-label="Öppna timer"
+            id="open-timer"
+          >
+            <span><span data-i18n="Timer">Timer</span></span
+            ><strong id="timer-tile-time"
+              ><span data-i18n="Starta timer">Starta timer</span></strong
+            ><small class="optional-help" id="timer-tile-status"
+              ><span data-i18n="Tryck för att välja tid"
+                >Tryck för att välja tid</span
+              ></small
+            >
+          </button>
+        </div>
+        <div class="temperature photo-entry">
+          <button id="photos-button">
+            <svg
+              aria-hidden="true"
+              class="photos-icon"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewbox="0 0 24 24"
+            >
+              <rect height="18" rx="5" width="18" x="3" y="3"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <path d="m4 17 5-5 4 4 3-3 5 5"></path></svg
+            ><span
+              ><span data-i18n="Våra ögonblick">Våra ögonblick</span
+              ><small id="photo-count"
+                ><span data-i18n="Albumet Wallboard"
+                  >Albumet Wallboard</span
+                ></small
+              ></span
+            >
+            <b>↗</b>
+          </button>
+        </div>
+      </section>
+      <footer>
+        <span id="health"
+          ><span data-i18n="Surface Go · Wallboard"
+            >Surface Go · Wallboard</span
+          ></span
+        ><span id="theme-label"
+          ><span data-i18n="Automatiskt tema">Automatiskt tema</span></span
+        ><span id="camera-status"
+          ><span data-i18n="Närvaro startar">Närvaro startar</span></span
+        >
+      </footer>
+    </main>
+    <section
+      aria-labelledby="tab-planner"
+      hidden=""
+      id="planner-page"
+      role="tabpanel"
+    >
+      <iframe
+        data-i18n-title="Family Planner"
+        id="planner-frame"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+        title="Family Planner"
+      ></iframe
+      ><button hidden="" id="planner-retry">
+        <span data-i18n="Kalendern kunde inte öppnas · Försök igen"
+          >Kalendern kunde inte öppnas · Försök igen</span
+        >
+      </button>
+    </section>
+    <section
+      aria-labelledby="tab-music"
+      hidden=""
+      id="music-page"
+      role="tabpanel"
+    >
+      <header class="music-heading">
+        <div>
+          <div class="eyebrow">
+            <span data-i18n="LYSSNA HEMMA">LYSSNA HEMMA</span>
+          </div>
+          <h1><span data-i18n="Music Assistant">Music Assistant</span></h1>
+        </div>
+        <span class="pill" id="music-player-status"
+          ><span data-i18n="Högtalaren">Högtalaren</span></span
+        >
+      </header>
+      <div class="music-layout">
+        <article class="music-now card">
+          <div class="music-output">
+            <span data-i18n="Spelar på">Spelar på</span
+            ><strong id="music-output-name">Relax</strong>
+          </div>
+          <div class="music-artwork">
+            <span aria-hidden="true">♫</span
+            ><img alt="Albumomslag" hidden="" id="music-art" />
+          </div>
+          <h2 id="music-title">
+            <span data-i18n="Välj något att lyssna på"
+              >Välj något att lyssna på</span
+            >
+          </h2>
+          <p id="music-artist">
+            <span data-i18n="Ditt bibliotek i Music Assistant"
+              >Ditt bibliotek i Music Assistant</span
+            >
+          </p>
+          <p id="music-album"></p>
+          <div class="music-transport">
+            <button
+              aria-label="Föregående låt"
+              data-i18n-aria-label="Föregående låt"
+              id="music-previous"
+            >
+              ❮❮</button
+            ><button
+              aria-label="Spela"
+              data-i18n-aria-label="Spela"
+              id="music-play"
+            >
+              ▶</button
+            ><button
+              aria-label="Nästa låt"
+              data-i18n-aria-label="Nästa låt"
+              id="music-next"
+            >
+              ❯❯
+            </button>
+          </div>
+          <label class="music-volume"
+            ><span data-i18n="Volym">Volym</span
+            ><input
+              id="music-volume"
+              max="100"
+              min="0"
+              type="range"
+              value="8"
+            /><output id="music-volume-label">8 %</output></label
+          >
+          <div class="music-options">
+            <button aria-pressed="false" id="music-shuffle">
+              <span data-i18n="Blanda">Blanda</span></button
+            ><button aria-pressed="false" id="music-repeat">
+              <span data-i18n="Repetera">Repetera</span>
+            </button>
+          </div>
+          <p aria-live="polite" id="music-control-status" role="status"></p>
+        </article>
+        <article class="music-browser card">
+          <div class="music-view-tabs">
+            <button aria-pressed="true" id="music-view-library">
+              <span data-i18n="Bibliotek">Bibliotek</span></button
+            ><button aria-pressed="false" id="music-view-queue">
+              <span data-i18n="Musikkö">Musikkö</span>
+            </button>
+          </div>
+          <form id="music-search-form">
+            <input
+              aria-label="Sök musik"
+              data-i18n-aria-label="Sök musik"
+              data-i18n-placeholder="Sök låt, artist eller album"
+              id="music-search"
+              maxlength="160"
+              placeholder="Sök låt, artist eller album"
+              type="search"
+            /><button class="primary-button" type="submit">
+              <span data-i18n="Sök">Sök</span>
+            </button>
+          </form>
+          <button
+            id="music-clear-search"
+            class="music-clear"
+            hidden
+            type="button"
+          >
+            <span data-i18n="Rensa sökning">Rensa sökning</span> ×
+          </button>
+          <div class="music-categories">
+            <button data-music-category="playlists">
+              <span data-i18n="Spellistor">Spellistor</span></button
+            ><button data-music-category="albums">
+              <span data-i18n="Album">Album</span></button
+            ><button data-music-category="artists">
+              <span data-i18n="Artister">Artister</span></button
+            ><button data-music-category="tracks">
+              <span data-i18n="Låtar">Låtar</span></button
+            ><button data-music-category="radio">
+              <span data-i18n="Radio">Radio</span>
+            </button>
+          </div>
+          <div class="music-library-heading">
+            <button
+              aria-label="Tillbaka i biblioteket"
+              data-i18n-aria-label="Tillbaka i biblioteket"
+              disabled=""
+              id="music-back"
+            >
+              ← <span data-i18n="Tillbaka">Tillbaka</span>
+            </button>
+            <h2 id="music-library-title">
+              <span data-i18n="Spellistor">Spellistor</span>
+            </h2>
+            <button
+              aria-label="Hämta igen"
+              data-i18n-aria-label="Hämta igen"
+              id="music-retry"
+            >
+              ↻
+            </button>
+          </div>
+          <div id="music-collection-actions" hidden>
+            <button id="music-play-collection" class="primary-button">
+              <span data-i18n="Spela alla">Spela alla</span> ▶</button
+            ><button id="music-add-collection">
+              <span data-i18n="Köa alla">Köa alla</span> +
+            </button>
+          </div>
+          <p id="music-message" role="status"></p>
+          <div aria-busy="false" id="music-library"></div>
+          <section
+            aria-label="Musikkö för Högtalaren"
+            data-i18n-aria-label="Musikkö för Högtalaren"
+            hidden=""
+            id="music-queue"
+          >
+            <div class="music-queue-heading">
+              <h2><span data-i18n="Musikkö">Musikkö</span></h2>
+              <span id="music-queue-count"></span
+              ><button
+                aria-label="Uppdatera musikkön"
+                data-i18n-aria-label="Uppdatera musikkön"
+                id="music-queue-refresh"
+              >
+                ↻
+              </button>
+            </div>
+            <button id="music-queue-current">
+              <span data-i18n="Visa aktuell låt">Visa aktuell låt</span> ↓
+            </button>
+            <p id="music-queue-message" role="status"></p>
+            <ol id="music-queue-items"></ol>
+          </section>
+        </article>
+      </div>
+    </section>
+    <section
+      aria-labelledby="tab-security"
+      hidden=""
+      id="security-page"
+      role="tabpanel"
+    >
+      <div class="security-heading">
+        <div>
+          <div class="eyebrow">
+            <span data-i18n="ÖVERBLICK">ÖVERBLICK</span>
+          </div>
+          <h1>
+            <span data-i18n="Kameror &amp; säkerhet"
+              >Kameror &amp; säkerhet</span
+            >
+          </h1>
+        </div>
+        <span class="pill" id="security-connection"
+          ><span data-i18n="Ansluter">Ansluter</span></span
+        >
+      </div>
+      <div class="security-summary">
+        <div>
+          <span><span data-i18n="Hemlarm">Hemlarm</span></span
+          ><strong id="security-alarm">—</strong>
+        </div>
+        <div>
+          <span><span data-i18n="Dörrar">Dörrar</span></span
+          ><strong id="security-doors">—</strong>
+        </div>
+        <div>
+          <span
+            ><span data-i18n="Rök / brandvarnarljud"
+              >Rök / brandvarnarljud</span
+            ></span
+          ><strong id="security-smoke">—</strong>
+        </div>
+      </div>
+      <div class="security-contacts" id="security-contacts"></div>
+      <div class="camera-section-heading">
+        <h2><span data-i18n="Alla kameror">Alla kameror</span></h2>
+        <span class="optional-help"
+          ><span
+            class="optional-help"
+            data-i18n="Tryck för större bild · Översikten uppdateras var 15:e sekund"
+            >Tryck för större bild · Översikten uppdateras var 15:e sekund</span
+          ></span
+        >
+      </div>
+      <div class="camera-grid" id="camera-grid"></div>
+    </section>
+    <section
+      aria-labelledby="camera-viewer-title"
+      aria-modal="true"
+      hidden=""
+      id="camera-viewer"
+      role="dialog"
+    >
+      <header>
+        <div>
+          <div class="eyebrow"><span data-i18n="KAMERA">KAMERA</span></div>
+          <h1 id="camera-viewer-title"></h1>
+        </div>
+        <button id="camera-close">
+          <span data-i18n="Tillbaka till säkerhet">Tillbaka till säkerhet</span>
+        </button>
+      </header>
+      <div class="camera-viewer-image">
+        <video
+          autoplay=""
+          hidden=""
+          id="camera-video"
+          muted=""
+          playsinline=""
+        ></video
+        ><img alt="Senaste kamerabild" hidden="" id="camera-poster" /><img
+          alt=""
+          id="camera-stream"
+        /><span hidden="" id="camera-stream-error"
+          ><span data-i18n="Kameran kunde inte nås. Försöker igen…"
+            >Kameran kunde inte nås. Försöker igen…</span
+          ></span
+        >
+      </div>
+      <p id="camera-stream-status">
+        <span data-i18n="Ansluter till kameran…">Ansluter till kameran…</span>
+      </p>
+    </section>
+    <section
+      aria-labelledby="settings-title"
+      aria-modal="true"
+      hidden=""
+      id="settings-panel"
+      role="dialog"
+    >
+      <div class="settings-sheet">
+        <header>
+          <div>
+            <div class="eyebrow">
+              <span data-i18n="DEN HÄR WALLBOARDEN">DEN HÄR WALLBOARDEN</span>
+            </div>
+            <div class="settings-title-row">
+              <button
+                aria-label="Tillbaka till inställningar"
+                class="settings-back"
+                data-i18n-aria-label="Tillbaka till inställningar"
+                hidden=""
+                id="settings-back"
+                type="button"
+              >
+                ‹
+              </button>
+              <h1 id="settings-title">
+                <span data-i18n="Inställningar">Inställningar</span>
+              </h1>
+            </div>
+            <p aria-live="polite" hidden="" id="settings-light-count">
+              <span data-i18n="Välj högst 9 lampor eller grupper."
+                >Välj högst 9 lampor eller grupper.</span
+              >
+            </p>
+          </div>
+          <button
+            aria-label="Stäng inställningar"
+            class="round-close"
+            data-i18n-aria-label="Stäng inställningar"
+            id="settings-close"
+          >
+            ×
+          </button>
+        </header>
+        <form id="settings-form">
+          <div class="settings-scroll">
+            <nav
+              aria-label="Inställningskategorier"
+              data-i18n-aria-label="Inställningskategorier"
+              id="settings-category-menu"
+            >
+              <p><span data-i18n="Välj en kategori">Välj en kategori</span></p>
+              <div id="settings-category-list"></div>
+              <p class="settings-draft-help">
+                <span
+                  data-i18n="Ändringar sparas när du trycker Spara. Du kan byta kategori utan att förlora dina val."
+                  >Ändringar sparas när du trycker Spara. Du kan byta kategori
+                  utan att förlora dina val.</span
+                >
+              </p>
+            </nav>
+            <fieldset data-settings-category="home" hidden="">
+              <legend>
+                <span data-i18n="Innehåll på Hemma">Innehåll på Hemma</span>
+              </legend>
+              <div class="setting-switches">
+                <label
+                  ><span
+                    ><span data-i18n="Visa hjälptext"
+                      >Visa hjälptext</span
+                    ></span
+                  ><input name="show_help_text" type="checkbox"
+                /></label>
+              </div>
+              <p>
+                <span data-i18n="Välj vad som ska visas."
+                  >Välj vad som ska visas.</span
+                >
+              </p>
+              <div class="setting-switches">
+                <label
+                  ><span><span data-i18n="Väder">Väder</span></span
+                  ><input name="show_weather" type="checkbox" /></label
+                ><label
+                  ><span
+                    ><span data-i18n="Hemstatus och dörrar"
+                      >Hemstatus och dörrar</span
+                    ></span
+                  ><input name="show_home" type="checkbox" /></label
+                ><label
+                  ><span
+                    ><span data-i18n="Familjens närvaro"
+                      >Familjens närvaro</span
+                    ></span
+                  ><input name="show_people" type="checkbox" /></label
+                ><label
+                  ><span
+                    ><span data-i18n="Belysningsknappar"
+                      >Belysningsknappar</span
+                    ></span
+                  ><input name="show_lights" type="checkbox" /></label
+                ><label
+                  ><span
+                    ><span data-i18n="Temperaturer">Temperaturer</span></span
+                  ><input name="show_temperatures" type="checkbox" /></label
+                ><label
+                  ><span
+                    ><span data-i18n="Knapp till bildspelet"
+                      >Knapp till bildspelet</span
+                    ></span
+                  ><input name="show_photos" type="checkbox"
+                /></label>
+              </div>
+              <label class="setting-field"
+                ><span data-i18n="Startvy efter omstart"
+                  >Startvy efter omstart</span
+                ><select name="start_dashboard">
+                  <option data-i18n="Hemma" value="home">Hemma</option>
+                  <option data-i18n="Family Planner" value="planner">
+                    Family Planner
+                  </option>
+                  <option data-i18n="Säkerhet" value="security">
+                    Säkerhet
+                  </option>
+                  <option data-i18n="Musik" value="music">Musik</option>
+                </select></label
+              >
+            </fieldset>
+            <fieldset data-settings-category="lights" hidden="">
+              <legend>
+                <span data-i18n="Lampor och lampgrupper"
+                  >Lampor och lampgrupper</span
+                >
+              </legend>
+              <div class="settings-light-choices" id="settings-lights"></div>
+            </fieldset>
+            <fieldset data-settings-category="weather" hidden="">
+              <legend>
+                <span data-i18n="Temperatur och väder"
+                  >Temperatur och väder</span
+                >
+              </legend>
+              <label class="setting-field"
+                ><span data-i18n="Inomhustemperatur">Inomhustemperatur</span
+                ><select name="indoor_temperature_entity"></select
+              ></label>
+              <label class="setting-field"
+                ><span data-i18n="Utomhustemperatur från"
+                  >Utomhustemperatur från</span
+                ><select name="outdoor_temperature_source">
+                  <option
+                    data-i18n="Temperaturgivare i Home Assistant"
+                    value="sensor"
+                  >
+                    Temperaturgivare i Home Assistant
+                  </option>
+                  <option
+                    data-i18n="Samma vädertjänst och plats som prognosen"
+                    value="weather"
+                  >
+                    Samma vädertjänst och plats som prognosen
+                  </option>
+                </select></label
+              >
+              <label class="setting-field" id="outdoor-sensor-field"
+                ><span data-i18n="Utomhusgivare">Utomhusgivare</span
+                ><select name="outdoor_temperature_entity"></select
+              ></label>
+              <label class="setting-field"
+                ><span data-i18n="Väderprognos från">Väderprognos från</span
+                ><select name="weather_source">
+                  <option data-i18n="Home Assistant" value="ha">
+                    Home Assistant
+                  </option>
+                  <option
+                    data-i18n="Open-Meteo · publik vädertjänst"
+                    value="open_meteo"
+                  >
+                    Open-Meteo · publik vädertjänst
+                  </option>
+                </select></label
+              >
+              <label class="setting-field" id="weather-entity-field"
+                ><span data-i18n="Väder i Home Assistant"
+                  >Väder i Home Assistant</span
+                ><select name="weather_entity"></select
+              ></label>
+              <div hidden="" id="weather-city-fields">
+                <label class="setting-field"
+                  ><span data-i18n="Stad">Stad</span
+                  ><input
+                    data-i18n-placeholder="Sök stad"
+                    id="weather-city-query"
+                    maxlength="100"
+                    placeholder="Sök stad"
+                    type="text" /></label
+                ><button
+                  class="secondary-button"
+                  id="weather-city-search"
+                  type="button"
+                >
+                  <span data-i18n="Sök stad">Sök stad</span></button
+                ><select
+                  aria-label="Välj stad från sökresultat"
+                  data-i18n-aria-label="Välj stad från sökresultat"
+                  id="weather-city-results"
+                ></select>
+                <p id="weather-city-status" role="status"></p>
+              </div>
+              <p>
+                <span
+                  data-i18n="Utetemperatur från vädertjänsten använder alltid samma plats som prognosen. Open-Meteo.com · CC BY 4.0."
+                  >Utetemperatur från vädertjänsten använder alltid samma plats
+                  som prognosen. Open-Meteo.com · CC BY 4.0.</span
+                >
+              </p>
+            </fieldset>
+            <fieldset data-settings-category="photos" hidden="">
+              <legend>
+                <span data-i18n="Bildkälla och album">Bildkälla och album</span>
+              </legend>
+              <label class="setting-field"
+                ><span data-i18n="Bildkälla">Bildkälla</span
+                ><select name="photo_source">
+                  <option data-i18n="Immich" value="immich">Immich</option>
+                  <option data-i18n="Lokal mapp" value="local">
+                    Lokal mapp
+                  </option>
+                  <option data-i18n="iCloud Photos" value="icloud">
+                    iCloud Photos
+                  </option>
+                  <option data-i18n="Google Photos" value="google">
+                    Google Photos
+                  </option>
+                </select></label
+              ><label class="setting-field"
+                ><span data-i18n="Album / mapp">Album / mapp</span
+                ><select name="photo_album"></select
+              ></label>
+              <p id="photo-source-help"></p>
+              <button
+                class="secondary-button"
+                hidden=""
+                id="photo-open-icloud-account"
+                type="button"
+              >
+                <span data-i18n="Hantera iCloud i Konton"
+                  >Hantera iCloud i Konton</span
+                >
+              </button>
+              <div hidden="" id="private-photo-fields">
+                <h3>
+                  <span data-i18n="Privat konto · ingen publik delning"
+                    >Privat konto · ingen publik delning</span
+                  >
+                </h3>
+                <div hidden="" id="google-private-fields">
+                  <p>
+                    <span
+                      data-i18n="Logga in och välj bilder från ditt privata album i Google Photos. Ingen delningslänk behövs. Bilderna sparas privat på plattan. Nya bilder i albumet läggs till genom ett nytt urval; Google ger inte automatisk albumsynkning via Picker."
+                      >Logga in och välj bilder från ditt privata album i Google
+                      Photos. Ingen delningslänk behövs. Bilderna sparas privat
+                      på plattan. Nya bilder i albumet läggs till genom ett nytt
+                      urval; Google ger inte automatisk albumsynkning via
+                      Picker.</span
+                    >
+                  </p>
+                  <p id="google-configured"></p>
+                  <label class="setting-field"
+                    ><span data-i18n="Google OAuth-klientfil (Desktop app)"
+                      >Google OAuth-klientfil (Desktop app)</span
+                    ><input
+                      accept="application/json,.json"
+                      id="google-client-file"
+                      type="file" /></label
+                  ><button
+                    class="secondary-button"
+                    id="google-login"
+                    type="button"
+                  >
+                    <span data-i18n="Logga in på Google"
+                      >Logga in på Google</span
+                    >
+                  </button>
+                  <label class="setting-field"
+                    ><span data-i18n="Namn på privat urval"
+                      >Namn på privat urval</span
+                    ><input
+                      data-i18n-placeholder="Mitt privata album"
+                      id="google-selection-name"
+                      maxlength="80"
+                      placeholder="Mitt privata album"
+                      type="text" /></label
+                  ><button
+                    class="secondary-button"
+                    id="google-pick"
+                    type="button"
+                  >
+                    <span data-i18n="Välj privata bilder"
+                      >Välj privata bilder</span
+                    ></button
+                  ><button
+                    class="secondary-button"
+                    id="google-import"
+                    type="button"
+                  >
+                    <span data-i18n="Hämta valda bilder"
+                      >Hämta valda bilder</span
+                    ></button
+                  ><button
+                    class="secondary-button"
+                    id="google-cancel"
+                    type="button"
+                  >
+                    <span data-i18n="Avbryt urval">Avbryt urval</span></button
+                  ><button
+                    class="secondary-button"
+                    id="google-disconnect"
+                    type="button"
+                  >
+                    <span data-i18n="Koppla bort Google"
+                      >Koppla bort Google</span
+                    >
+                  </button>
+                </div>
+                <p
+                  aria-live="polite"
+                  id="private-photo-status"
+                  role="status"
+                ></p>
+              </div>
+              <div hidden="" id="photo-shared-fields">
+                <p>
+                  <span
+                    data-i18n="Alternativ: lägg till ett redan delat album nedan. Privata konton kräver ingen publik delning."
+                    >Alternativ: lägg till ett redan delat album nedan. Privata
+                    konton kräver ingen publik delning.</span
+                  >
+                </p>
+              </div>
+              <div hidden="" id="photo-album-create">
+                <label class="setting-field"
+                  ><span data-i18n="Namn på album / mapp"
+                    >Namn på album / mapp</span
+                  ><input
+                    data-i18n-placeholder="Exempelvis Wallboard"
+                    id="photo-new-name"
+                    maxlength="80"
+                    placeholder="Exempelvis Wallboard"
+                    type="text" /></label
+                ><input
+                  aria-label="Albumets delningslänk"
+                  data-i18n-aria-label="Albumets delningslänk"
+                  data-i18n-placeholder="https://…"
+                  id="photo-album-link"
+                  maxlength="3000"
+                  placeholder="https://…"
+                  type="url"
+                /><button
+                  class="secondary-button"
+                  id="photo-add-album"
+                  type="button"
+                >
+                  <span data-i18n="Lägg till album / mapp"
+                    >Lägg till album / mapp</span
+                  >
+                </button>
+              </div>
+              <div hidden="" id="photo-local-fields">
+                <button
+                  class="secondary-button"
+                  id="photo-upload"
+                  type="button"
+                >
+                  <span data-i18n="Lägg till bilder i mappen"
+                    >Lägg till bilder i mappen</span
+                  ></button
+                ><input
+                  accept="image/jpeg,image/png,image/webp"
+                  hidden=""
+                  id="photo-files"
+                  multiple=""
+                  type="file"
+                />
+              </div>
+              <p
+                aria-live="polite"
+                id="photo-settings-status"
+                role="status"
+              ></p>
+            </fieldset>
+            <fieldset data-settings-category="accounts" hidden="">
+              <legend><span data-i18n="Konton">Konton</span></legend>
+              <h3>iCloud</h3>
+              <label class="setting-field"
+                ><span data-i18n="Apple-konto">Apple-konto</span
+                ><input
+                  autocomplete="username"
+                  id="icloud-username"
+                  type="email"
+              /></label>
+              <p>
+                <span
+                  data-i18n="Ett Apple-konto för kalender och bilder. Anslut behörigheterna separat nedan."
+                  >Ett Apple-konto för kalender och bilder. Anslut
+                  behörigheterna separat nedan.</span
+                >
+              </p>
+              <div id="icloud-account-identity"></div>
+              <p hidden="" id="icloud-account-warning" role="status"></p>
+              <div class="account-service-card" id="icloud-calendar-fields">
+                <h3><span data-i18n="Kalender">Kalender</span></h3>
+                <p id="icloud-calendar-status" role="status"></p>
+                <p>
+                  <span
+                    data-i18n="Kalendern använder ett appspecifikt lösenord. Samma kalenderanslutning används av Family Planner i HA."
+                    >Kalendern använder ett appspecifikt lösenord. Samma
+                    kalenderanslutning används av Family Planner i HA.</span
+                  >
+                </p>
+                <label class="setting-field"
+                  ><span data-i18n="Appspecifikt lösenord för kalender"
+                    >Appspecifikt lösenord för kalender</span
+                  ><input
+                    autocomplete="new-password"
+                    id="icloud-calendar-password"
+                    placeholder="xxxx-xxxx-xxxx-xxxx"
+                    type="password"
+                /></label>
+                <button
+                  class="secondary-button"
+                  id="icloud-calendar-connect"
+                  type="button"
+                >
+                  <span data-i18n="Anslut kalender">Anslut kalender</span>
+                </button>
+                <button
+                  class="secondary-button"
+                  id="icloud-calendar-refresh"
+                  type="button"
+                >
+                  <span data-i18n="Uppdatera kalendrar"
+                    >Uppdatera kalendrar</span
+                  >
+                </button>
+                <label class="setting-field"
+                  ><span data-i18n="Kalender att använda"
+                    >Kalender att använda</span
+                  ><select id="icloud-account-calendar"></select
+                ></label>
+                <button
+                  class="secondary-button"
+                  id="icloud-calendar-select"
+                  type="button"
+                >
+                  <span data-i18n="Använd vald kalender"
+                    >Använd vald kalender</span
+                  >
+                </button>
+                <button
+                  class="secondary-button"
+                  id="icloud-calendar-disconnect"
+                  type="button"
+                >
+                  <span data-i18n="Koppla bort kalender"
+                    >Koppla bort kalender</span
+                  >
+                </button>
+                <p>
+                  <a
+                    href="https://support.apple.com/sv-se/102654"
+                    rel="noopener"
+                    target="_blank"
+                    ><span data-i18n="Så skapar du ett appspecifikt lösenord"
+                      >Så skapar du ett appspecifikt lösenord</span
+                    ></a
+                  >
+                </p>
+              </div>
+              <p id="icloud-calendar-result" role="status"></p>
+              <div
+                class="account-service-card"
+                hidden=""
+                id="icloud-private-fields"
+              >
+                <h3><span data-i18n="Bilder">Bilder</span></h3>
+                <p>
+                  <span
+                    data-i18n="Logga in med ditt Apple-konto och bekräfta koden på din betrodda enhet. Kontot och den betrodda sessionen sparas endast på plattan. iCloud-webbåtkomst måste vara aktiverad; Apple kan kräva ny verifiering senare."
+                    >Logga in med ditt Apple-konto och bekräfta koden på din
+                    betrodda enhet. Kontot och den betrodda sessionen sparas
+                    endast på plattan. iCloud-webbåtkomst måste vara aktiverad;
+                    Apple kan kräva ny verifiering senare.</span
+                  >
+                </p>
+                <label class="setting-field"
+                  ><span data-i18n="Apple-kontots lösenord för bilder"
+                    >Apple-kontots lösenord för bilder</span
+                  ><input
+                    autocomplete="current-password"
+                    id="icloud-password"
+                    type="password" /></label
+                ><button
+                  class="secondary-button"
+                  id="icloud-login"
+                  type="button"
+                >
+                  <span data-i18n="Logga in på iCloud">Logga in på iCloud</span>
+                </button>
+                <div hidden="" id="icloud-two-factor">
+                  <label class="setting-field"
+                    ><span data-i18n="Tvåfaktorskod">Tvåfaktorskod</span
+                    ><input
+                      autocomplete="one-time-code"
+                      id="icloud-code"
+                      inputmode="numeric"
+                      maxlength="6"
+                      type="text" /></label
+                  ><button
+                    class="secondary-button"
+                    id="icloud-verify"
+                    type="button"
+                  >
+                    <span data-i18n="Bekräfta kod">Bekräfta kod</span>
+                  </button>
+                </div>
+                <button
+                  class="secondary-button"
+                  id="icloud-refresh"
+                  type="button"
+                >
+                  <span data-i18n="Uppdatera privata album"
+                    >Uppdatera privata album</span
+                  ></button
+                ><button
+                  class="secondary-button"
+                  id="icloud-disconnect"
+                  type="button"
+                >
+                  <span data-i18n="Koppla bort iCloud">Koppla bort iCloud</span>
+                </button>
+                <p id="icloud-account-photo-status" role="status"></p>
+              </div>
+            </fieldset>
+            <fieldset data-settings-category="regional" hidden="">
+              <legend>
+                <span data-i18n="Språk och tid">Språk och tid</span>
+              </legend>
+              <label class="setting-field"
+                ><span data-i18n="Språk">Språk</span
+                ><select name="language">
+                  <option data-i18n="Svenska" value="sv">Svenska</option>
+                  <option data-i18n="English" value="en">English</option>
+                </select></label
+              >
+              <label class="setting-field"
+                ><span data-i18n="Tidsformat">Tidsformat</span
+                ><select name="time_format">
+                  <option data-i18n="24 timmar" value="24h">24 timmar</option>
+                  <option data-i18n="12 timmar · AM/PM" value="12h">
+                    12 timmar · AM/PM
+                  </option>
+                </select></label
+              >
+              <p>
+                <span
+                  data-i18n="Tidsformatet används för klockan, kalendern och nattlägets tidsval. Tidszonen är Europe/Stockholm oavsett språk."
+                  >Tidsformatet används för klockan, kalendern och nattlägets
+                  tidsval. Tidszonen är Europe/Stockholm oavsett språk.</span
+                >
+              </p>
+            </fieldset>
+            <fieldset data-settings-category="appearance" hidden="">
+              <legend><span data-i18n="Utseende">Utseende</span></legend>
+              <label class="setting-field"
+                ><span data-i18n="Tema">Tema</span
+                ><select name="theme">
+                  <option data-i18n="Auto · följ tid på dygnet" value="auto">
+                    Auto · följ tid på dygnet
+                  </option>
+                  <option data-i18n="Morgon · fast tema" value="morning">
+                    Morgon · fast tema
+                  </option>
+                  <option data-i18n="Dag · fast tema" value="day">
+                    Dag · fast tema
+                  </option>
+                  <option data-i18n="Kväll · fast tema" value="evening">
+                    Kväll · fast tema
+                  </option>
+                  <option data-i18n="Natt · fast tema" value="night">
+                    Natt · fast tema
+                  </option>
+                  <option data-i18n="Dark mode · fast tema" value="dark">
+                    Dark mode · fast tema
+                  </option>
+                </select></label
+              >
+              <p>
+                <span data-i18n="Tema sparas direkt.">Tema sparas direkt.</span>
+              </p>
+            </fieldset>
+            <fieldset data-settings-category="night" hidden="">
+              <legend><span data-i18n="Nattläge">Nattläge</span></legend>
+              <div class="setting-switches">
+                <label
+                  ><span
+                    ><span data-i18n="Aktivera schemalagt nattläge"
+                      >Aktivera schemalagt nattläge</span
+                    ></span
+                  ><input name="night_mode_enabled" type="checkbox"
+                /></label>
+              </div>
+              <div class="settings-fields">
+                <label class="setting-field"
+                  ><span data-i18n="Släck skärmen">Släck skärmen</span
+                  ><input name="night_start" type="hidden" /><span
+                    class="time-picker"
+                    data-time-field="night_start"
+                  ></span></label
+                ><label class="setting-field"
+                  ><span data-i18n="Avsluta nattläge">Avsluta nattläge</span
+                  ><input name="night_end" type="hidden" /><span
+                    class="time-picker"
+                    data-time-field="night_end"
+                  ></span
+                ></label>
+              </div>
+              <p>
+                <span
+                  data-i18n="Nattläget släcker skärmen under valda tider (svensk tid). Närvaro väcker inte skärmen då. Ett tryck väcker den tillfälligt i två minuter. Brandlarm och en färdig timer tänder alltid skärmen. Temat väljs separat från nattläget."
+                  >Nattläget släcker skärmen under valda tider (svensk tid).
+                  Närvaro väcker inte skärmen då. Ett tryck väcker den
+                  tillfälligt i två minuter. Brandlarm och en färdig timer
+                  tänder alltid skärmen. Temat väljs separat från
+                  nattläget.</span
+                >
+              </p>
+            </fieldset>
+            <fieldset data-settings-category="screen" hidden="">
+              <legend>
+                <span data-i18n="Skärm och bildspel">Skärm och bildspel</span>
+              </legend>
+              <label class="setting-field"
+                ><span data-i18n="Vid frånvaro">Vid frånvaro</span
+                ><select name="screen_mode">
+                  <option data-i18n="Dimma och visa bildspel" value="photos">
+                    Dimma och visa bildspel
+                  </option>
+                  <option data-i18n="Dimma och behåll aktuell vy" value="dim">
+                    Dimma och behåll aktuell vy
+                  </option>
+                  <option data-i18n="Håll skärmen aktiv" value="keep_on">
+                    Håll skärmen aktiv
+                  </option>
+                </select></label
+              >
+              <div class="settings-fields">
+                <label class="setting-field"
+                  ><span data-i18n="Tid till viloläge, sekunder"
+                    >Tid till viloläge, sekunder</span
+                  ><input
+                    inputmode="numeric"
+                    max="3600"
+                    min="15"
+                    name="idle_seconds"
+                    required=""
+                    step="1"
+                    type="number" /></label
+                ><label class="setting-field"
+                  ><span data-i18n="Tid per bild, sekunder"
+                    >Tid per bild, sekunder</span
+                  ><input
+                    inputmode="numeric"
+                    max="300"
+                    min="5"
+                    name="slide_seconds"
+                    required=""
+                    step="1"
+                    type="number"
+                /></label>
+              </div>
+              <label class="setting-field range-field"
+                ><span
+                  ><span data-i18n="Aktiv ljusstyrka">Aktiv ljusstyrka</span
+                  ><output id="active_brightness-value"></output></span
+                ><input
+                  max="100"
+                  min="20"
+                  name="active_brightness"
+                  type="range" /></label
+              ><label class="setting-field range-field"
+                ><span
+                  ><span data-i18n="Ljusstyrka vid vila"
+                    >Ljusstyrka vid vila</span
+                  ><output id="idle_brightness-value"></output></span
+                ><input max="60" min="1" name="idle_brightness" type="range"
+              /></label>
+              <div class="setting-switches">
+                <label
+                  ><span
+                    ><span data-i18n="Väck med kamerans närvarodetektering"
+                      >Väck med kamerans närvarodetektering</span
+                    ></span
+                  ><input name="presence_enabled" type="checkbox"
+                /></label>
+              </div>
+              <p>
+                <span
+                  data-i18n="Beröring väcker alltid skärmen. Brandlarm tar över oavsett dessa inställningar."
+                  >Beröring väcker alltid skärmen. Brandlarm tar över oavsett
+                  dessa inställningar.</span
+                >
+              </p>
+            </fieldset>
+            <fieldset data-settings-category="sound" hidden="">
+              <legend><span data-i18n="Timerljud">Timerljud</span></legend>
+              <label class="setting-field"
+                ><span data-i18n="Ljudsignal">Ljudsignal</span
+                ><select name="timer_sound">
+                  <option data-i18n="Ljusa toner" value="chime">
+                    Ljusa toner
+                  </option>
+                  <option data-i18n="Klocka" value="bell">Klocka</option>
+                  <option data-i18n="Digital signal" value="digital">
+                    Digital signal
+                  </option>
+                  <option data-i18n="Mjuka toner" value="piano">
+                    Mjuka toner
+                  </option>
+                  <option data-i18n="Gong" value="gong">Gong</option>
+                </select></label
+              >
+              <div class="setting-switches">
+                <label
+                  ><span
+                    ><span data-i18n="Plattans högtalare"
+                      >Plattans högtalare</span
+                    ></span
+                  ><input
+                    name="timer_outputs"
+                    type="checkbox"
+                    value="tablet" /></label
+                ><label
+                  ><span><span data-i18n="Högtalaren">Högtalaren</span></span
+                  ><input name="timer_outputs" type="checkbox" value="sonos"
+                /></label>
+              </div>
+              <p>
+                <span data-i18n="Välj en ljudenhet eller båda."
+                  >Välj en ljudenhet eller båda.</span
+                >
+              </p>
+              <label class="setting-field range-field"
+                ><span
+                  ><span data-i18n="Volym">Volym</span
+                  ><output id="timer_volume-value"></output></span
+                ><input
+                  max="100"
+                  min="0"
+                  name="timer_volume"
+                  step="1"
+                  type="range" /></label
+              ><button
+                class="secondary-button"
+                id="settings-test-timer-sound"
+                type="button"
+              >
+                <span data-i18n="Provlyssna">Provlyssna</span>
+              </button>
+              <p>
+                <span
+                  data-i18n="Påverkar bara timerljudet. Välj 0 % för en tyst timer."
+                  >Påverkar bara timerljudet. Välj 0 % för en tyst timer.</span
+                >
+              </p>
+              <p
+                aria-live="polite"
+                id="timer-sound-preview-status"
+                role="status"
+              ></p>
+            </fieldset>
+            <fieldset data-settings-category="keyboard" hidden="">
+              <legend><span data-i18n="Tangentbord">Tangentbord</span></legend>
+              <div class="setting-switches">
+                <label
+                  ><span
+                    ><span data-i18n="Visa automatiskt i textfält"
+                      >Visa automatiskt i textfält</span
+                    ></span
+                  ><input name="keyboard_auto" type="checkbox"
+                /></label>
+              </div>
+              <button
+                class="secondary-button"
+                id="settings-keyboard"
+                type="button"
+              >
+                <span data-i18n="Visa tangentbord">Visa tangentbord</span>
+              </button>
+              <p>
+                <span
+                  data-i18n="Svenskt skärmtangentbord. Kan även öppnas från kalenderns redigerare."
+                  >Svenskt skärmtangentbord. Kan även öppnas från kalenderns
+                  redigerare.</span
+                >
+              </p>
+            </fieldset>
+          </div>
+          <div class="settings-actions">
+            <p id="settings-error" role="alert"></p>
+            <div>
+              <span></span
+              ><button
+                class="secondary-button"
+                id="settings-cancel"
+                type="button"
+              >
+                <span data-i18n="Avbryt">Avbryt</span></button
+              ><button class="primary-button" id="settings-save" type="submit">
+                <span data-i18n="Spara">Spara</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <section
+      aria-labelledby="light-panel-name"
+      aria-modal="true"
+      hidden=""
+      id="light-panel"
+      role="dialog"
+    >
+      <div class="light-sheet">
+        <header>
+          <div>
+            <div class="eyebrow" id="light-panel-room"></div>
+            <h1 id="light-panel-name">
+              <span data-i18n="Belysning">Belysning</span>
+            </h1>
+          </div>
+          <button
+            aria-label="Stäng lampreglage"
+            class="round-close"
+            data-i18n-aria-label="Stäng lampreglage"
+            id="light-panel-close"
+          >
+            ×
+          </button>
+        </header>
+        <div class="light-panel-body">
+          <button class="primary-button" id="light-panel-toggle">
+            <span data-i18n="Tänd">Tänd</span>
+          </button>
+          <p id="light-panel-help"></p>
+          <label class="setting-field range-field" id="lamp-brightness-field"
+            ><span
+              ><span data-i18n="Ljusstyrka">Ljusstyrka</span
+              ><output id="lamp-brightness-value"></output></span
+            ><input
+              id="lamp-brightness"
+              max="100"
+              min="1"
+              step="1"
+              type="range"
+          /></label>
+          <div id="lamp-color-fields">
+            <div class="lamp-color-heading">
+              <span data-i18n="Färg">Färg</span
+              ><span id="lamp-color-preview"></span>
+            </div>
+            <label class="setting-field range-field"
+              ><span
+                ><span data-i18n="Nyans">Nyans</span
+                ><output id="lamp-hue-value"></output
+              ></span>
+              <div
+                aria-label="Färgskala"
+                class="lamp-scale lamp-hue-scale"
+                data-i18n-aria-label="Färgskala"
+              ></div>
+              <input
+                id="lamp-hue"
+                max="360"
+                min="0"
+                step="1"
+                type="range" /></label
+            ><label class="setting-field range-field"
+              ><span
+                ><span data-i18n="Mättnad">Mättnad</span
+                ><output id="lamp-saturation-value"></output></span
+              ><input
+                id="lamp-saturation"
+                max="100"
+                min="0"
+                step="1"
+                type="range"
+            /></label>
+          </div>
+          <label class="setting-field range-field" id="lamp-temperature-field"
+            ><span
+              ><span data-i18n="Färgtemperatur">Färgtemperatur</span
+              ><output id="lamp-kelvin-value"></output
+            ></span>
+            <div class="lamp-scale-labels">
+              <span><span data-i18n="Varmt">Varmt</span></span
+              ><span><span data-i18n="Kallt">Kallt</span></span>
+            </div>
+            <div
+              aria-label="Färgtemperaturskala från varmt till kallt"
+              class="lamp-scale lamp-temperature-scale"
+              data-i18n-aria-label="Färgtemperaturskala från varmt till kallt"
+            ></div>
+            <input id="lamp-kelvin" max="6500" min="2000" step="1" type="range"
+          /></label>
+          <p id="light-panel-error" role="alert"></p>
+        </div>
+      </div>
+    </section>
+    <section
+      aria-labelledby="timer-title"
+      aria-modal="true"
+      hidden=""
+      id="timer-panel"
+      role="dialog"
+    >
+      <div class="timer-sheet">
+        <header>
+          <div>
+            <div class="eyebrow">
+              <span data-i18n="NEDRÄKNING">NEDRÄKNING</span>
+            </div>
+            <h1 id="timer-title"><span data-i18n="Timer">Timer</span></h1>
+          </div>
+          <button
+            aria-label="Stäng timer"
+            class="round-close"
+            data-i18n-aria-label="Stäng timer"
+            id="timer-close"
+          >
+            ×
+          </button>
+        </header>
+        <div class="timer-body">
+          <div id="timer-countdown" role="timer">05:00</div>
+          <p aria-live="polite" id="timer-status">
+            <span data-i18n="Välj tid och tryck Starta."
+              >Välj tid och tryck Starta.</span
+            >
+          </p>
+          <form id="timer-form">
+            <div class="timer-presets">
+              <button data-timer-minutes="1" type="button">
+                <span data-i18n="1 min">1 min</span></button
+              ><button data-timer-minutes="5" type="button">
+                <span data-i18n="5 min">5 min</span></button
+              ><button data-timer-minutes="10" type="button">
+                <span data-i18n="10 min">10 min</span></button
+              ><button data-timer-minutes="15" type="button">
+                <span data-i18n="15 min">15 min</span></button
+              ><button data-timer-minutes="30" type="button">
+                <span data-i18n="30 min">30 min</span></button
+              ><button data-timer-minutes="60" type="button">
+                <span data-i18n="1 tim">1 tim</span>
+              </button>
+            </div>
+            <div class="timer-fields">
+              <label
+                ><span data-i18n="Minuter">Minuter</span
+                ><input
+                  id="timer-minutes"
+                  inputmode="numeric"
+                  max="1440"
+                  min="0"
+                  required=""
+                  type="number"
+                  value="5" /></label
+              ><label
+                ><span data-i18n="Sekunder">Sekunder</span
+                ><input
+                  id="timer-seconds"
+                  inputmode="numeric"
+                  max="59"
+                  min="0"
+                  required=""
+                  type="number"
+                  value="0"
+              /></label>
+            </div>
+            <button class="primary-button" id="timer-start" type="submit">
+              <span data-i18n="Starta">Starta</span>
+            </button>
+          </form>
+          <div class="timer-running-actions" hidden="">
+            <button class="primary-button" id="timer-pause">
+              <span data-i18n="Pausa">Pausa</span></button
+            ><button class="secondary-button" id="timer-reset">
+              <span data-i18n="Återställ">Återställ</span>
+            </button>
+          </div>
+          <button class="primary-button" hidden="" id="timer-dismiss">
+            <span data-i18n="Klart">Klart</span>
+          </button>
+          <p id="timer-error" role="alert"></p>
+        </div>
+      </div>
+    </section>
+    <section
+      aria-labelledby="event-title"
+      aria-modal="true"
+      hidden=""
+      id="event-overview"
+      role="dialog"
+    >
+      <div class="event-sheet">
+        <header>
+          <div>
+            <div class="eyebrow">
+              <span data-i18n="HÄNDELSE">HÄNDELSE</span>
+            </div>
+            <h1 id="event-title" tabindex="-1"></h1>
+          </div>
+          <button
+            aria-label="Stäng händelsen"
+            class="round-close"
+            data-i18n-aria-label="Stäng händelsen"
+            id="event-close"
+          >
+            ×
+          </button>
+        </header>
+        <div class="event-overview-scroll">
+          <div class="event-when">
+            <strong id="event-times"></strong><span id="event-date"></span>
+          </div>
+          <div class="event-info">
+            <h2><span data-i18n="Deltagare">Deltagare</span></h2>
+            <div id="event-participants"></div>
+          </div>
+          <div class="event-info">
+            <h2><span data-i18n="Plats">Plats</span></h2>
+            <p id="event-location"></p>
+          </div>
+          <div class="event-info">
+            <h2>
+              <span data-i18n="Anteckningar / notiser"
+                >Anteckningar / notiser</span
+              >
+            </h2>
+            <p id="event-notes"></p>
+          </div>
+          <div class="event-info">
+            <h2><span data-i18n="Kalender">Kalender</span></h2>
+            <p id="event-source-label"></p>
+          </div>
+        </div>
+        <footer>
+          <p class="optional-help" id="event-edit-help"></p>
+          <div>
+            <button class="secondary-button" id="event-back">
+              <span data-i18n="Tillbaka">Tillbaka</span></button
+            ><button class="primary-button" id="event-edit">
+              <span data-i18n="Ändra">Ändra</span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </section>
+    <div aria-live="polite" hidden="" id="ui-notice" role="status"></div>
+    <section
+      aria-labelledby="fire-title"
+      aria-modal="true"
+      hidden=""
+      id="fire-view"
+      role="alertdialog"
+    >
+      <div aria-hidden="true" class="fire-symbol">!</div>
+      <p class="fire-eyebrow">
+        <span data-i18n="RÖK / BRANDVARNARLJUD DETEKTERAT"
+          >RÖK / BRANDVARNARLJUD DETEKTERAT</span
+        >
+      </p>
+      <h1 id="fire-title"><span data-i18n="Brandlarm">Brandlarm</span></h1>
+      <p class="fire-instruction">
+        <span data-i18n="Kontrollera omedelbart. Utrym vid fara och ring 112."
+          >Kontrollera omedelbart. Utrym vid fara och ring 112.</span
+        >
+      </p>
+      <div id="fire-detectors"></div>
+      <p id="fire-connection"></p>
+      <p aria-live="polite" id="fire-feedback" role="status"></p>
+      <p class="fire-note">
+        <span
+          data-i18n="Larmvyn ligger kvar tills berörda detektorer bekräftar att signalen har upphört."
+          >Larmvyn ligger kvar tills berörda detektorer bekräftar att signalen
+          har upphört.</span
+        >
+      </p>
+    </section>
+    <dialog id="mute-confirm">
+      <form method="dialog">
+        <h2>
+          <span data-i18n="Tysta brandvarnaren?">Tysta brandvarnaren?</span>
+        </h2>
+        <p id="mute-name"></p>
+        <p>
+          <span
+            data-i18n="Tysta endast vid konstaterat falsklarm och när du ser detektorn."
+            >Tysta endast vid konstaterat falsklarm och när du ser
+            detektorn.</span
+          >
+        </p>
+        <div class="dialog-actions">
+          <button value="cancel"><span data-i18n="Avbryt">Avbryt</span></button
+          ><button id="confirm-mute" value="confirm">
+            <span data-i18n="Tysta detektorn">Tysta detektorn</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <section
+      aria-label="Bildspel från albumet Wallboard"
+      data-i18n-aria-label="Bildspel från albumet Wallboard"
+      id="slideshow"
+    >
+      <div id="photo-backdrop"></div>
+      <img alt="" class="slide" id="slide-a" /><img
+        alt=""
+        class="slide"
+        id="slide-b"
+      />
+      <div class="photo-shade"></div>
+      <aside
+        aria-label="Musik som spelas"
+        data-i18n-aria-label="Musik som spelas"
+        hidden=""
+        id="slide-music"
+      >
+        <div aria-hidden="true" class="equalizer">
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <span class="slide-music-eyebrow"
+          ><span data-i18n="SPELAR NU">SPELAR NU</span></span
+        >
+        <div class="slide-music-cover">
+          <span aria-hidden="true">♫</span
+          ><img alt="Albumomslag" hidden="" id="slide-music-art" />
+        </div>
+        <h2 id="slide-music-title"></h2>
+        <p id="slide-music-artist"></p>
+        <small id="slide-music-album"></small
+        ><span id="slide-music-player"></span>
+      </aside>
+      <div class="photo-top">
+        <span><span data-i18n="HEMMA">HEMMA</span></span
+        ><span id="slide-weather"></span>
+      </div>
+      <div class="photo-bottom">
+        <div>
+          <div id="slide-clock">--:--</div>
+          <div id="slide-date"></div>
+        </div>
+        <div class="photo-caption">
+          <span id="caption"></span
+          ><small
+            ><span data-i18n="WALLBOARD · VÅRA ÖGONBLICK"
+              >WALLBOARD · VÅRA ÖGONBLICK</span
+            ></small
+          >
+        </div>
+      </div>
+      <button id="return-home">
+        <span data-i18n="Tryck för hemvyn">Tryck för hemvyn</span>
+      </button>
+      <div id="no-photos">
+        <span data-i18n="Dina bilder visas här när albumet är tillgängligt."
+          >Dina bilder visas här när albumet är tillgängligt.</span
+        >
+      </div>
+    </section>
+  </body>
+</html>

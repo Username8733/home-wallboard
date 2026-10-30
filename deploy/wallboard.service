@@ -1,0 +1,27 @@
+[Unit]
+Description=Wallboard dashboard and Immich slideshow
+After=network-online.target
+Wants=network-online.target
+[Service]
+User=wallboard
+Group=wallboard
+SupplementaryGroups=video render
+WorkingDirectory=/opt/wallboard
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=+/bin/chgrp wallboard /sys/class/backlight/intel_backlight/brightness
+ExecStartPre=+/bin/chmod 0664 /sys/class/backlight/intel_backlight/brightness
+ExecStart=/opt/wallboard/venv/bin/python /opt/wallboard/server.py
+Restart=always
+RestartSec=5
+RuntimeDirectory=wallboard
+RuntimeDirectoryMode=0750
+StateDirectory=wallboard
+StateDirectoryMode=0700
+UMask=0077
+LimitCORE=0
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=read-only
+ProtectSystem=full
+[Install]
+WantedBy=multi-user.target

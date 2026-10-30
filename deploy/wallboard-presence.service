@@ -1,0 +1,22 @@
+[Unit]
+Description=Local Surface front-camera presence detection
+After=wallboard.service
+Requires=wallboard.service
+PartOf=wallboard.service
+StartLimitIntervalSec=0
+[Service]
+User=wallboard
+Group=wallboard
+SupplementaryGroups=video render
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 /opt/wallboard/presence.py
+Restart=always
+RestartSec=10
+LimitCORE=0
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+UMask=0077
+[Install]
+WantedBy=multi-user.target

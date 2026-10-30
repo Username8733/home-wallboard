@@ -1,0 +1,39 @@
+{
+  "ha_url": "http://homeassistant.local:8123",
+  "ha_token": "REPLACE_WITH_DEDICATED_NON_ADMIN_HA_TOKEN",
+  "immich_url": "http://immich.local:2283",
+  "immich_api_key": "REPLACE_WITH_IMMICH_VIEWER_KEY",
+  "album_id": "REPLACE_WITH_ALBUM_ID",
+  "ma_url": "http://homeassistant.local:8095",
+  "ma_token": "REPLACE_WITH_DEDICATED_MUSIC_TOKEN",
+  "music_player": "media_player.music",
+  "announcement_player": "media_player.speaker",
+  "music_player_name": "Living room speaker",
+  "planner_ingress": "",
+  "lights": {
+    "light.living_room": "Living room"
+  },
+  "people": [],
+  "home": {
+    "alarm": "alarm_control_panel.home",
+    "doors": {}
+  },
+  "security": {
+    "cameras": {},
+    "doors": {},
+    "lock": "lock.front_door",
+    "alarm": "alarm_control_panel.home"
+  },
+  "detectors": {},
+  "initial_settings": {
+    "lights": [
+      "light.living_room"
+    ],
+    "outdoor_temperature_entity": "sensor.outdoor_temperature",
+    "indoor_temperature_entity": "sensor.indoor_temperature",
+    "weather_entity": "weather.forecast_home",
+    "language": "en"
+  },
+  "ha_control_device_id": "",
+  "ha_control_secret": ""
+}
